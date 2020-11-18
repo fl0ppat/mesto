@@ -25,3 +25,9 @@
 .popup__close:hover {
   opacity: .6;
 }
+
+.popup__close:focus {
+  outline: 0;
+  border-radius: 0;
+  border: 0;
+}
