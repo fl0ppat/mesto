@@ -1,1 +1,8 @@
 .cards {}
+
+@media screen and (max-width: 880px) {
+  .cards {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+}

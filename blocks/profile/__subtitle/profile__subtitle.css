@@ -1,1 +1,15 @@
-.profile__subtitle {}
+.profile__subtitle {
+  color: #fff;
+  font-size: 1.125rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-top: 9px;
+}
+
+@media screen and (max-width: 450px) {
+  .profile__subtitle {
+    font-size: 0.875rem;
+    padding: 0;
+    text-align: center;
+  }
+}

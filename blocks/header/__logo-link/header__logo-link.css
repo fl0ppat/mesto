@@ -1,1 +1,17 @@
-.header__logo-link {}
+.header__logo-link {
+  margin-bottom: 36px;
+  display: block;
+  max-width: fit-content;
+}
+
+@media screen and (max-width: 880px) {
+  .header__logo-link {
+    padding-left: 27px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .header__logo-link {
+    margin-bottom: 28px;
+  }
+}

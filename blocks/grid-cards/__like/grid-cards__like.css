@@ -1,0 +1,9 @@
+.grid-cards__like {
+  display: inline-block;
+  background-image: url(./like.svg);
+  color: #000;
+  max-width: 20.76px;
+  width: 100%;
+  min-height: 18px;
+  margin: auto;
+}
