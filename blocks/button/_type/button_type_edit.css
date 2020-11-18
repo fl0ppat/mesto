@@ -10,6 +10,8 @@
   border: 1px solid #fff;
   border-radius: 0;
   margin-left: 14px;
+  transition: opacity 0.3s;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 450px) {
@@ -18,4 +20,8 @@
     height: 18px;
     margin-left: 6px;
   }
+}
+
+.button_type_edit:hover {
+  opacity: .6;
 }

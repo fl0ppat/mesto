@@ -11,6 +11,8 @@
   background-image: url('../_type/Add.svg');
   background-repeat: no-repeat;
   background-position: center;
+  transition: opacity .3s;
+  cursor: pointer;
 }
 
 @media screen and (max-width:650px) {
@@ -18,4 +20,8 @@
     max-width: 282px;
     background-size: 16px;
   }
+}
+
+.button_type_add:hover {
+  opacity: .6;
 }

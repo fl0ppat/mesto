@@ -48,8 +48,6 @@
             <span class="grid-cards__like"></span>
           </div>
 
-          <!-- Не пон -->
-
         </li>
         <li class="grid-cards__card">
           <img src="./blocks/grid-cards/__img/4.png" alt="Пейзаж" class="grid-cards__img">
@@ -73,25 +71,27 @@
             <h2 class="grid-cards__title">Карачаево-Черкесия</h2>
             <span class="grid-cards__like"></span>
           </div>
-
         </li>
       </ul>
     </section>
     <section class="popup">
-      <button class="popup__close"></button>
-      <form class="popup__container" action="#">
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <fieldset>
-          <input class="popup__input" type="text">
-          <input class="popup__input" type="text">
-        </fieldset>
-        <input type="submit" value="Сохранить">
-      </form>
+      <div class="popup__container">
+        <form class="popup__form" action=".">
+          <button class="popup__close"></button>
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <fieldset>
+            <input required value="Жак-Ив Кусто" name="name" placeholder="Имя" class="popup__input" type="text">
+            <input required value="Исследователь океана" name="subtitle" placeholder="Заслуга" class="popup__input" type="text">
+          </fieldset>
+          <input class="button button_type_save" type="submit" value="Сохранить">
+        </form>
+      </div>
     </section>
     <footer class="footer">
       <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
   </main>
+  <script src="./blocks/popup/popup.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,12 @@
+.popup__form {
+  background-color: #fff;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 29px;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup__form>fieldset {
+  border: 0;
+}
