@@ -12,13 +12,14 @@
   margin-left: 14px;
   transition: opacity 0.3s;
   cursor: pointer;
+  margin: 15px 19px 0px;
 }
 
 @media screen and (max-width: 450px) {
   .button_type_edit {
     width: 18px;
     height: 18px;
-    margin-left: 6px;
+    margin: 36px 0px 0px 0px;
   }
 }
 
