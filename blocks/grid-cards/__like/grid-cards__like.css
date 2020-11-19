@@ -12,11 +12,11 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
-.grid-cards__like:hover {
-  opacity: .6;
-}
-
 .grid-cards__like:focus {
   border: 0;
   outline: none;
+}
+
+.grid-cards__like:hover {
+  opacity: .6;
 }
