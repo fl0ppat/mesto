@@ -20,13 +20,11 @@
       <div class="profile__info">
         <div class="profile__wrapper">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <button class="button button_type_edit"></button>
+          <button type="button" class="profile__edit"></button>
         </div>
-
-
         <p class="profile__subtitle">Исследователь океана</p>
       </div>
-      <button class="button button_type_add"></button>
+      <button type="button" class="button button_type_add"></button>
     </section>
     <section class="cards">
       <ul class="grid-cards">
@@ -78,24 +76,22 @@
         </li>
       </ul>
     </section>
-    <section class="popup">
-      <div class="popup__container">
-        <form class="popup__form" action=".">
-          <button class="popup__close"></button>
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <fieldset>
-            <input required value="Жак-Ив Кусто" name="name" placeholder="Имя" class="popup__input" type="text">
-            <input required value="Исследователь океана" name="subtitle" placeholder="Заслуга" class="popup__input" type="text">
-          </fieldset>
-          <input class="button button_type_save" type="submit" value="Сохранить">
-        </form>
-      </div>
-    </section>
-    <footer class="footer">
-      <p class="footer__copyright">© 2020 Mesto Russia</p>
-    </footer>
   </main>
-  <script src="./blocks/popup/popup.js"></script>
+  <footer class="footer">
+    <p class="footer__copyright">© 2020 Mesto Russia</p>
+  </footer>
+  <section class="popup">
+    <div class="popup__container">
+      <form class="popup__form" name="dataEdit" action=".">
+        <button type="button" class="popup__close"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input required value="Жак-Ив Кусто" name="name" placeholder="Имя" class="popup__input" type="text">
+        <input required value="Исследователь океана" name="subtitle" placeholder="Заслуга" class="popup__input" type="text">
+        <input class="button button_type_save" type="submit" value="Сохранить">
+      </form>
+    </div>
+  </section>
+  <script src="./scripts/index.js"></script>
 </body>
 
 </html>

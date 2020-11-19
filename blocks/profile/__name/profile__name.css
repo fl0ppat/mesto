@@ -1,5 +1,4 @@
 .profile__name {
-  display: inline-block;
   max-width: 328px;
   text-overflow: ellipsis;
   overflow: hidden;

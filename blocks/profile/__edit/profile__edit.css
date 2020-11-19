@@ -1,5 +1,4 @@
-.button_type_edit {
-  display: inline-block;
+.profile__edit {
   width: 24px;
   height: 24px;
   background-image: url(./Edit.svg);
@@ -16,18 +15,18 @@
 }
 
 @media screen and (max-width: 450px) {
-  .button_type_edit {
+  .profile__edit {
     width: 18px;
     height: 18px;
     margin: 36px 0px 0px 0px;
   }
 }
 
-.button_type_edit:hover {
+.profile__edit:hover {
   opacity: .6;
 }
 
-.button_type_edit:focus {
+.profile__edit:focus {
   border-radius: 0;
   border: 1px solid #fff;
   outline: none;

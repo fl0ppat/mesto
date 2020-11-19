@@ -1,6 +1,4 @@
-const addButton = document.querySelector('.button_type_add');
 const editButton = document.querySelector('.button_type_edit');
-const saveButton = document.querySelector('.button_type_save');
 const closeButton = document.querySelector('.popup__close');
 
 const popup = document.querySelector('.popup');
@@ -9,8 +7,8 @@ const form = document.querySelector('.popup__form');
 
 const showName = document.querySelector('.profile__name');
 const showSubtitle = document.querySelector('.profile__subtitle');
-let nameInput = document.querySelectorAll('.popup__input')[0];
-let subtitleInput = document.querySelectorAll('.popup__input')[1];
+let nameInput = form.querySelectorAll('.popup__input')[0];
+let subtitleInput = form.querySelectorAll('.popup__input')[1];
 
 
 const init = () => {
@@ -42,8 +40,6 @@ const submitHandler = (e) => {
   e.preventDefault();
   if (nameInput && subtitleInput) {
     saveData(nameInput.value, subtitleInput.value);
-  } else {
-    saveData('Жак-Ив Кусто', 'Исследователь океана');
   }
 
 
