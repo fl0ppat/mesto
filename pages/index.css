@@ -22,7 +22,7 @@
 @import url('../blocks/grid-cards/__like/grid-cards__like.css');
 @import url('../blocks/grid-cards/__title/grid-cards__title.css');
 @import url('../blocks/popup/popup.css');
-@import url('../blocks/popup/popup_opened.css');
+@import url('../blocks/popup/_opened/popup_opened.css');
 @import url('../blocks/popup/__close/popup__close.css');
 @import url('../blocks/popup/__container/popup__container.css');
 @import url('../blocks/popup/__input/popup__input.css');
