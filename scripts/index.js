@@ -1,31 +1,114 @@
-const closeButton = document.querySelector('.popup__close');
+const closeButtons = document.querySelectorAll('.popup__close');
 const editButton = document.querySelector('.profile__edit');
+const addButton = document.querySelector('.button_type_add');
 
-const popup = document.querySelector('.popup');
+const popupEdit = document.querySelector('#edit');
+const popupAdd = document.querySelector('#add');
+const popupFull = document.querySelector('#full');
 
-const form = document.querySelector('.popup__form');
+const formAdd = document.querySelector('#formAdd');
 
 const showName = document.querySelector('.profile__name');
 const showSubtitle = document.querySelector('.profile__subtitle');
-let nameInput = form.querySelectorAll('.popup__input')[0];
-let subtitleInput = form.querySelectorAll('.popup__input')[1];
 
+const formEdit = document.querySelector('#formEdit');
+let nameInput = formEdit.querySelectorAll('.popup__input')[0];
+let subtitleInput = formEdit.querySelectorAll('.popup__input')[1];
+
+const grid = document.querySelector('.grid-cards');
+const footer = document.querySelector('.footer');
+
+const mestoTemplate = document.querySelector('#mesto');
+const mestoTemplateContent = document.querySelector('#mesto').content;
+
+const cards = [{
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
 const init = () => {
-  editButton.addEventListener('click', openPopup);
-  closeButton.addEventListener('click', closePopup);
-  form.addEventListener('submit', submitHandler);
+
+
+  editButton.addEventListener('click', () => createPopup('edit'));
+  addButton.addEventListener('click', () => createPopup('add'));
+  formEdit.addEventListener('submit', submitHandler);
+
+  closeButtons.forEach(button => { button.addEventListener('click', () => closePopup(button)) });
+
+  cards.forEach((elem) => {
+    addMesto(elem);
+  });
+
+  formAdd.addEventListener('submit', (e) => {
+    console.dir(e.target.elements);
+    e.preventDefault();
+    let mestoToPush = { 'name': e.target.elements[1].value, 'link': e.target.elements[2].value };
+    cards.push(mestoToPush);
+    addMesto(mestoToPush);
+    closePopup();
+  });
 }
 
-const openPopup = () => {
-  popup.classList.add('popup_opened');
-  nameInput.value = showName.textContent;
-  subtitleInput.value = showSubtitle.textContent;
+const addMesto = (mesto) => {
+  const newMesto = mestoTemplateContent.cloneNode(true);
+  newMesto.querySelector('.grid-cards__img').src = mesto.link;
+  newMesto.querySelector('.grid-cards__img').alt = mesto.name;
+  newMesto.querySelector('.grid-cards__img').addEventListener('click', (e) => {
+    popupFull.querySelector('.popup__img').src = e.target.currentSrc;
+    console.dir(e);
+    popupFull.querySelector('.popup__full-title').textContent = e.target.alt;
+    createPopup('full');
+  })
+  newMesto.querySelector('.grid-cards__title').textContent = mesto.name;
+  console.dir(newMesto.querySelector('.grid-cards__title'));
+
+  grid.append(newMesto);
 }
+
+
+const createPopup = (type) => {
+  switch (type) {
+    case 'edit':
+      popupEdit.classList.add('popup_opened');
+      nameInput.value = showName.textContent;
+      subtitleInput.value = showSubtitle.textContent;
+      break;
+
+    case 'add':
+      popupAdd.classList.add('popup_opened');
+      break;
+
+    case 'full':
+      popupFull.classList.add('popup_opened');
+      break;
+  }
+}
+
 
 const closePopup = () => {
-  if (popup.classList.contains('popup_opened')) {
-    popup.classList.remove('popup_opened');
+  if (document.querySelector('.popup_opened').classList.contains('popup_opened')) {
+    document.querySelector('.popup_opened').classList.toggle('popup_opened');
   }
 }
 
@@ -41,9 +124,6 @@ const submitHandler = (e) => {
   if (nameInput && subtitleInput) {
     saveData(nameInput.value, subtitleInput.value);
   }
-
-
-  //TODO Save to Cookies
 }
 
 
