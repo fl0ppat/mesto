@@ -20,6 +20,8 @@
 @import url('../blocks/grid-cards/__card/grid-cards__card.css');
 @import url('../blocks/grid-cards/__img/grid-cards__img.css');
 @import url('../blocks/grid-cards/__like/grid-cards__like.css');
+@import url('../blocks/grid-cards/__like/_liked/grid-cards__like_liked.css');
+@import url('../blocks/grid-cards/__delete/grid-cards__delete.css');
 @import url('../blocks/grid-cards/__title/grid-cards__title.css');
 @import url('../blocks/popup/popup.css');
 @import url('../blocks/popup/_opened/popup_opened.css');

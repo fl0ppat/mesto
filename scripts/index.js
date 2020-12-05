@@ -48,16 +48,14 @@ const cards = [{
 ];
 
 const init = () => {
-
-
   editButton.addEventListener('click', () => createPopup('edit'));
   addButton.addEventListener('click', () => createPopup('add'));
   formEdit.addEventListener('submit', submitHandler);
 
   closeButtons.forEach(button => { button.addEventListener('click', () => closePopup(button)) });
 
-  cards.forEach((elem) => {
-    addMesto(elem);
+  cards.forEach((elem, index) => {
+    addMesto(elem, index);
   });
 
   formAdd.addEventListener('submit', (e) => {
@@ -69,7 +67,7 @@ const init = () => {
   });
 }
 
-const addMesto = (mesto) => {
+const addMesto = (mesto, index) => {
   const newMesto = mestoTemplateContent.cloneNode(true);
   const newMestoImg = newMesto.querySelector('.grid-cards__img');
   newMestoImg.src = mesto.link;
@@ -80,7 +78,15 @@ const addMesto = (mesto) => {
     createPopup('full');
   })
   newMesto.querySelector('.grid-cards__title').textContent = mesto.name;
+  newMesto.querySelector('.grid-cards__like').addEventListener('click', (e) => {
+    e.target.classList.toggle('grid-cards__like_liked');
+  });
+  newMesto.querySelector('.grid-cards__delete').addEventListener('click', (e) => {
+    console.dir(e.target.offsetParent.querySelector('.grid-cards__title').innerText);
+    cards.splice(cards.findIndex(mesto => mesto.name === e.target.offsetParent.querySelector('.grid-cards__title').innerText), 1)
 
+    e.target.offsetParent.remove();
+  })
 
   grid.append(newMesto);
 }
