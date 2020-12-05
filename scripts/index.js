@@ -61,7 +61,6 @@ const init = () => {
   });
 
   formAdd.addEventListener('submit', (e) => {
-    console.dir(e.target.elements);
     e.preventDefault();
     let mestoToPush = { 'name': e.target.elements[1].value, 'link': e.target.elements[2].value };
     cards.push(mestoToPush);
@@ -72,16 +71,16 @@ const init = () => {
 
 const addMesto = (mesto) => {
   const newMesto = mestoTemplateContent.cloneNode(true);
-  newMesto.querySelector('.grid-cards__img').src = mesto.link;
-  newMesto.querySelector('.grid-cards__img').alt = mesto.name;
-  newMesto.querySelector('.grid-cards__img').addEventListener('click', (e) => {
+  const newMestoImg = newMesto.querySelector('.grid-cards__img');
+  newMestoImg.src = mesto.link;
+  newMestoImg.alt = mesto.name;
+  newMestoImg.addEventListener('click', (e) => {
     popupFull.querySelector('.popup__img').src = e.target.currentSrc;
-    console.dir(e);
     popupFull.querySelector('.popup__full-title').textContent = e.target.alt;
     createPopup('full');
   })
   newMesto.querySelector('.grid-cards__title').textContent = mesto.name;
-  console.dir(newMesto.querySelector('.grid-cards__title'));
+
 
   grid.append(newMesto);
 }
