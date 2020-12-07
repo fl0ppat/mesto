@@ -39,33 +39,39 @@ const init = () => {
 
   // eslint-disable-next-line no-undef
   cards.forEach((elem) => {
-    addMesto(elem);
+    createCard(elem);
   });
 }
 
-const addMesto = (mesto) => {
-  const newMesto = mestoTemplateContent.cloneNode(true);
-  const newMestoImg = newMesto.querySelector('.grid-cards__img');
-  newMestoImg.src = mesto.link;
-  newMestoImg.alt = mesto.name;
-  newMestoImg.addEventListener('click', (e) => {
+const createCard = (elem) => {
+  const newCard = mestoTemplateContent.cloneNode(true);
+  const newCardImage = newCard.querySelector('.grid-cards__img');
+
+  newCardImage.src = elem.link;
+  newCardImage.alt = elem.name;
+  newCard.querySelector('.grid-cards__title').textContent = elem.name;
+  addCardToDOM(newCard);
+}
+
+const addCardToDOM = (node) => {
+  node.querySelector('.grid-cards__img').addEventListener('click', (e) => {
     popupFull.querySelector('.popup__img').src = e.target.currentSrc;
     popupFull.querySelector('.popup__img').alt = e.target.alt;
     popupFull.querySelector('.popup__full-title').textContent = e.target.alt;
     createPopup('image');
   })
-  newMesto.querySelector('.grid-cards__title').textContent = mesto.name;
-  newMesto.querySelector('.grid-cards__like').addEventListener('click', (e) => {
+  node.querySelector('.grid-cards__like').addEventListener('click', (e) => {
     e.target.classList.toggle('grid-cards__like_liked');
   });
-  newMesto.querySelector('.grid-cards__delete').addEventListener('click', (e) => {
+  node.querySelector('.grid-cards__delete').addEventListener('click', (e) => {
     // eslint-disable-next-line no-undef
     cards.splice(cards.findIndex(mesto => mesto.name === e.target.offsetParent.querySelector('.grid-cards__title').innerText), 1)
     e.target.offsetParent.remove();
   })
 
-  grid.prepend(newMesto);
+  grid.prepend(node);
 }
+
 
 const createPopup = (type) => {
   switch (type) {
@@ -86,10 +92,7 @@ const createPopup = (type) => {
 }
 
 const closePopup = (elem) => {
-  const parentElem = elem.target.closest('.popup');
-  if (parentElem.classList.contains('popup_opened')) {
-    parentElem.classList.toggle('popup_opened');
-  }
+  elem.target.closest('.popup').classList.toggle('popup_opened');
 }
 
 const saveProfileData = (name, subtitle) => {
@@ -108,7 +111,7 @@ const submitEditForm = (e) => {
 const submitAddForm = (e) => {
   e.preventDefault();
   const mestoToPush = { 'name': placeTitleInput.value, 'link': placeLinkInput.value };
-  addMesto(mestoToPush);
+  createCard(mestoToPush);
   closePopup(e);
 }
 
