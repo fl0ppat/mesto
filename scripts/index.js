@@ -11,6 +11,8 @@ const popupEditCloseButton = popupEdit.querySelector('.popup__close');
 const popupAddCloseButton = popupAdd.querySelector('.popup__close');
 const popupFullCloseButton = popupFull.querySelector('.popup__close');
 
+const popupFullImg = popupFull.querySelector('.popup__img');
+
 const showName = document.querySelector('.profile__name');
 const showSubtitle = document.querySelector('.profile__subtitle');
 
@@ -39,37 +41,40 @@ const init = () => {
 
   // eslint-disable-next-line no-undef
   cards.forEach((elem) => {
-    createCard(elem);
+    addCardToDOM(elem);
   });
 }
 
 const createCard = (elem) => {
+  const name = elem.name;
+  const link = elem.link;
   const newCard = mestoTemplateContent.cloneNode(true);
   const newCardImage = newCard.querySelector('.grid-cards__img');
 
-  newCardImage.src = elem.link;
-  newCardImage.alt = elem.name;
-  newCard.querySelector('.grid-cards__title').textContent = elem.name;
-  addCardToDOM(newCard);
-}
+  newCardImage.src = link;
+  newCardImage.alt = name;
+  newCard.querySelector('.grid-cards__title').textContent = name;
 
-const addCardToDOM = (node) => {
-  node.querySelector('.grid-cards__img').addEventListener('click', (e) => {
-    popupFull.querySelector('.popup__img').src = e.target.currentSrc;
-    popupFull.querySelector('.popup__img').alt = e.target.alt;
+  newCard.querySelector('.grid-cards__img').addEventListener('click', (e) => {
+    popupFullImg.src = e.target.currentSrc;
+    popupFullImg.alt = e.target.alt;
     popupFull.querySelector('.popup__full-title').textContent = e.target.alt;
     createPopup('image');
   })
-  node.querySelector('.grid-cards__like').addEventListener('click', (e) => {
+  newCard.querySelector('.grid-cards__like').addEventListener('click', (e) => {
     e.target.classList.toggle('grid-cards__like_liked');
   });
-  node.querySelector('.grid-cards__delete').addEventListener('click', (e) => {
+  newCard.querySelector('.grid-cards__delete').addEventListener('click', (e) => {
     // eslint-disable-next-line no-undef
     cards.splice(cards.findIndex(mesto => mesto.name === e.target.offsetParent.querySelector('.grid-cards__title').innerText), 1)
     e.target.offsetParent.remove();
   })
 
-  grid.prepend(node);
+  return newCard;
+}
+
+const addCardToDOM = (elem) => {
+  grid.prepend(createCard(elem));
 }
 
 
@@ -111,7 +116,7 @@ const submitEditForm = (e) => {
 const submitAddForm = (e) => {
   e.preventDefault();
   const mestoToPush = { 'name': placeTitleInput.value, 'link': placeLinkInput.value };
-  createCard(mestoToPush);
+  addCardToDOM(mestoToPush);
   closePopup(e);
 }
 
