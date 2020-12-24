@@ -78,7 +78,7 @@ const addCardToDOM = (elem) => {
 }
 
 
-const createPopup = (type) => {
+const createPopup = (type, element) => {
   switch (type) {
     case 'edit':
       popupEdit.classList.add('popup_opened');
@@ -94,6 +94,7 @@ const createPopup = (type) => {
       popupFull.classList.add('popup_opened');
       break;
   }
+  console.log(element);
 }
 
 const closePopup = (elem) => {
