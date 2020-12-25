@@ -37,13 +37,16 @@
   </footer>
   <section class="popup" id="edit">
     <div class="popup__container">
-      <form class="popup__form" id="formEdit" name="dataEdit" action=".">
+      <form class="popup__form" id="formEdit" name="dataEdit" action="." novalidate>
         <button type="button" class="popup__close"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input required minlength="2" maxlength="40" value="Жак-Ив Кусто" name="name" placeholder="Имя" class="popup__input" type="text">
-        <span class="popup__error">123123123</span>
-        <input required minlength="2" maxlength="200" value="Исследователь океана" name="subtitle" placeholder="Заслуга" class="popup__input" type="text">
-        <span class="popup__error">123123123</span>
+
+        <input id="name-input" autocomplete="off" required minlength="2" maxlength="40" value="Жак-Ив Кусто" name="name" placeholder="Имя" class="popup__input" type="text">
+        <span class="popup__error popup__error_name-input"></span>
+
+        <input id="subtitle-input" autocomplete="off" required minlength="2" maxlength="200" value="Исследователь океана" name="subtitle" placeholder="Заслуга" class="popup__input" type="text">
+        <span class="popup__error popup__error_subtitle-input"></span>
+        
         <input class="button button_type_save" type="submit" value="Сохранить">
       </form>
     </div>
@@ -53,11 +56,14 @@
       <form class="popup__form" id="formAdd" name="dataEdit" action="." novalidate>
         <button type="button" class="popup__close"></button>
         <h2 class="popup__title">Новое место</h2>
-        <input required value="" name="title" placeholder="Название" class="popup__input" type="text">
-        <span class="popup__error">123123123</span>
-        <input required value="" name="image" placeholder="Ссылка на картинку" class="popup__input" type="text">
-        <span class="popup__error">123123123</span>
-        <input class="button button_type_save" type="submit" value="Сохранить">
+
+        <input id="title-input" required value="" minlength="2" maxlength="30" name="title" autocomplete="off" placeholder="Название" class="popup__input" type="text">
+        <span class="popup__error popup__error_title-input"></span>
+
+        <input id="image-input" required value="" name="image" type="url" autocomplete="off" placeholder="Ссылка на картинку" class="popup__input" type="text">
+        <span class="popup__error popup__error_image-input"></span>
+
+        <input class="button button_type_save button_type_inactive" type="submit" value="Сохранить">
       </form>
     </div>
   </section>

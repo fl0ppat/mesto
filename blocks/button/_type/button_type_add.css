@@ -22,7 +22,7 @@
   }
 }
 
-.button_type_add:hover {
+.button_type_add:not(.button_type_inactive):hover  {
   opacity: .6;
 }
 

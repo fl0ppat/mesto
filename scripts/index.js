@@ -78,27 +78,42 @@ const addCardToDOM = (elem) => {
 }
 
 
-const createPopup = (type, element) => {
+const createPopup = (type) => {
   switch (type) {
     case 'edit':
       popupEdit.classList.add('popup_opened');
       nameInput.value = showName.textContent;
       subtitleInput.value = showSubtitle.textContent;
+      addCloseListeners(popupEdit);
       break;
 
     case 'add':
       popupAdd.classList.add('popup_opened');
+      addCloseListeners(popupAdd);
       break;
 
     case 'image':
       popupFull.classList.add('popup_opened');
+      addCloseListeners(popupFull);
       break;
   }
-  console.log(element);
+ 
+}
+
+const addCloseListeners = (popup) => {
+  console.log(popup);
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') {
+      closePopup();
+    }
+  })
 }
 
 const closePopup = (elem) => {
+  console.log(elem);
   elem.target.closest('.popup').classList.toggle('popup_opened');
+  elem.removeEventListener('keydown');
+
 }
 
 const saveProfileData = (name, subtitle) => {
