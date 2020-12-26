@@ -29,19 +29,6 @@ const placeLinkInput = formAddCard.querySelector('input[name="image"]');
 const grid = document.querySelector('.grid-cards');
 const mestoTemplateContent = document.querySelector('#mesto').content;
 
-const closePopupByButton = (popup) => (e) => {
-    if (e.key === 'Escape') {
-        closePopup(popup);
-    };
-}
-
-const closePopupByClick = (popup) => (e) => {
-    if (e.target.classList.contains('popup_opened') ||
-        e.target.classList.contains('popup__close')) {
-        closePopup(popup);
-    }
-}
-
 const init = () => {
     editButton.addEventListener('click', () => createPopup('edit'));
     addButton.addEventListener('click', () => createPopup('add'));
@@ -88,54 +75,58 @@ const addCardToDOM = (elem) => {
 
 
 const createPopup = (type) => {
-        switch (type) {
-            case 'edit':
-                popupEdit.classList.add('popup_opened');
-                nameInput.value = showName.textContent;
-                subtitleInput.value = showSubtitle.textContent;
-                addCloseListeners(popupEdit);
-                break;
+    switch (type) {
+        case 'edit':
+            popupEdit.classList.add('popup_opened');
+            nameInput.value = showName.textContent;
+            subtitleInput.value = showSubtitle.textContent;
+            addCloseListeners(popupEdit);
+            break;
 
-            case 'add':
-                popupAdd.classList.add('popup_opened');
-                addCloseListeners(popupAdd);
-                break;
+        case 'add':
+            popupAdd.classList.add('popup_opened');
+            addCloseListeners(popupAdd);
+            break;
 
-            case 'image':
-                popupFull.classList.add('popup_opened');
-                addCloseListeners(popupFull);
-                break;
-        }
-
-    }
-    /*
-    const closePopupByButton = (popup) => (e) => {
-        if (e.key === 'Escape') {
-            closePopup(popup);
-        };
+        case 'image':
+            popupFull.classList.add('popup_opened');
+            addCloseListeners(popupFull);
+            break;
     }
 
-    const closePopupByClick = (popup) => (e) => {
-        if (e.target.classList.contains('popup_opened') ||
-            e.target.classList.contains('popup__close')) {
-            closePopup(popup);
-        }
+}
+
+const getOpenedPopup = () => {
+    return document.querySelector('.popup_opened');
+}
+
+const closePopupByButton = (e) => {
+    if (e.key === 'Escape') {
+        closePopup(getOpenedPopup());
+    };
+}
+
+const closePopupByClick = (e) => {
+    const popup = getOpenedPopup();
+    if (e.target.classList.contains('popup_opened') ||
+        e.target.classList.contains('popup__close')) {
+        closePopup(popup);
     }
-    */
+}
+
 const addCloseListeners = (popup) => {
-    document.addEventListener('keydown', closePopupByButton(popup));
-    popup.addEventListener('click', closePopupByClick(popup))
+    document.addEventListener('keydown', closePopupByButton);
+    popup.addEventListener('click', closePopupByClick)
 }
 
 function clearListener(elem, event, callback) {
-    elem.removeEventListener(event, callback);
+    elem.removeEventListener(event, callback, false);
 }
 
-function closePopup(popup) {;
-    popup.classList.remove('popup_opened');
-
+function closePopup(popup) {
     clearListener(popup, 'click', closePopupByClick);
-    clearListener(document, 'keydown', closePopupByButton)
+    clearListener(document, 'keydown', closePopupByButton);
+    popup.classList.remove('popup_opened');
 
     clearForm(popup);
 }
