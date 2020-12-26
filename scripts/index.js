@@ -29,15 +29,24 @@ const placeLinkInput = formAddCard.querySelector('input[name="image"]');
 const grid = document.querySelector('.grid-cards');
 const mestoTemplateContent = document.querySelector('#mesto').content;
 
+const closePopupByButton = (popup) => (e) => {
+    if (e.key === 'Escape') {
+        closePopup(popup);
+    };
+}
+
+const closePopupByClick = (popup) => (e) => {
+    if (e.target.classList.contains('popup_opened') ||
+        e.target.classList.contains('popup__close')) {
+        closePopup(popup);
+    }
+}
+
 const init = () => {
     editButton.addEventListener('click', () => createPopup('edit'));
     addButton.addEventListener('click', () => createPopup('add'));
     formEditUserProfile.addEventListener('submit', submitEditForm);
     formAddCard.addEventListener('submit', submitAddForm);
-
-    [popupEditCloseButton, popupAddCloseButton, popupFullCloseButton].forEach(button => {
-        button.addEventListener('click', (e) => closePopup(e))
-    });
 
     // eslint-disable-next-line no-undef
     cards.forEach((elem) => {
@@ -79,55 +88,68 @@ const addCardToDOM = (elem) => {
 
 
 const createPopup = (type) => {
-    switch (type) {
-        case 'edit':
-            popupEdit.classList.add('popup_opened');
-            nameInput.value = showName.textContent;
-            subtitleInput.value = showSubtitle.textContent;
-            addCloseListeners(popupEdit);
-            break;
+        switch (type) {
+            case 'edit':
+                popupEdit.classList.add('popup_opened');
+                nameInput.value = showName.textContent;
+                subtitleInput.value = showSubtitle.textContent;
+                addCloseListeners(popupEdit);
+                break;
 
-        case 'add':
-            popupAdd.classList.add('popup_opened');
-            addCloseListeners(popupAdd);
-            break;
+            case 'add':
+                popupAdd.classList.add('popup_opened');
+                addCloseListeners(popupAdd);
+                break;
 
-        case 'image':
-            popupFull.classList.add('popup_opened');
-            addCloseListeners(popupFull);
-            break;
+            case 'image':
+                popupFull.classList.add('popup_opened');
+                addCloseListeners(popupFull);
+                break;
+        }
+
+    }
+    /*
+    const closePopupByButton = (popup) => (e) => {
+        if (e.key === 'Escape') {
+            closePopup(popup);
+        };
     }
 
-}
-
+    const closePopupByClick = (popup) => (e) => {
+        if (e.target.classList.contains('popup_opened') ||
+            e.target.classList.contains('popup__close')) {
+            closePopup(popup);
+        }
+    }
+    */
 const addCloseListeners = (popup) => {
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closePopup(e);
-        }
-    })
-    popup.addEventListener('click', (e) => {
-        if (e.target.classList.contains('popup_opened')) {
-            closePopup();
-        }
-    })
+    document.addEventListener('keydown', closePopupByButton(popup));
+    popup.addEventListener('click', closePopupByClick(popup))
 }
 
+function clearListener(elem, event, callback) {
+    elem.removeEventListener(event, callback);
+}
 
-const closePopup = () => {
+function closePopup(popup) {;
+    popup.classList.remove('popup_opened');
 
-    const openedPopup = document.querySelector('.popup_opened');
-    //evt.target.closest('.popup').classList.toggle('popup_opened');
-    if (openedPopup) {
-        openedPopup.classList.remove('popup_opened');
-    }
+    clearListener(popup, 'click', closePopupByClick);
+    clearListener(document, 'keydown', closePopupByButton)
 
-    document.removeEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closePopup();
-        }
+    clearForm(popup);
+}
+
+function clearForm(popup) {
+    const popupForm = popup.querySelector('.popup__form');
+    if (popupForm) { popupForm.reset() }
+
+    popup.querySelectorAll('.popup__error_visible').forEach((elem) => {
+        elem.classList.remove('popup__error_visible')
     })
-
+    popup.querySelectorAll('.popup__input_error').forEach((elem) => {
+        elem.classList.remove('popup__input_error')
+    })
 }
 
 const saveProfileData = (name, subtitle) => {
@@ -140,14 +162,14 @@ const submitEditForm = (e) => {
     if (nameInput && subtitleInput) {
         saveProfileData(nameInput.value, subtitleInput.value);
     }
-    closePopup(e);
+    closePopup(e.target.closest('.popup'));
 }
 
 const submitAddForm = (e) => {
     e.preventDefault();
     const mestoToPush = { 'name': placeTitleInput.value, 'link': placeLinkInput.value };
     addCardToDOM(mestoToPush);
-    closePopup(e);
+    closePopup(e.target.closest('.popup'));
 }
 
 init();
