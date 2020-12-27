@@ -102,7 +102,9 @@ const getOpenedPopup = () => {
 
 const closePopupByButton = (e) => {
     if (e.key === 'Escape') {
-        closePopup(getOpenedPopup());
+        const popup = getOpenedPopup();
+        clearForm(popup);
+        closePopup(popup);
     };
 }
 
@@ -110,6 +112,7 @@ const closePopupByClick = (e) => {
     const popup = getOpenedPopup();
     if (e.target.classList.contains('popup_opened') ||
         e.target.classList.contains('popup__close')) {
+        clearForm(popup)
         closePopup(popup);
     }
 }
@@ -126,19 +129,28 @@ function clearListener(elem, event, callback) {
 function closePopup(popup) {
     clearListener(popup, 'click', closePopupByClick);
     clearListener(document, 'keydown', closePopupByButton);
-    popup.classList.remove('popup_opened');
 
-    clearForm(popup);
+    popup.classList.remove('popup_opened');
 }
 
 function clearForm(popup) {
     const popupForm = popup.querySelector('.popup__form');
-    if (popupForm) { popupForm.reset() }
+    if (popupForm) {
+        popupForm.reset();
+        clearInputHandler(popupForm);
+    }
 
-    popup.querySelectorAll('.popup__error_visible').forEach((elem) => {
+}
+
+function clearInputHandler(popupForm) {
+    popupForm.querySelectorAll('.popup__input').forEach((inputElement) => {
+        checkInputValidity(popupForm, inputElement, validationConfig)
+    })
+
+    popupForm.querySelectorAll('.popup__error_visible').forEach((elem) => {
         elem.classList.remove('popup__error_visible')
     })
-    popup.querySelectorAll('.popup__input_error').forEach((elem) => {
+    popupForm.querySelectorAll('.popup__input_error').forEach((elem) => {
         elem.classList.remove('popup__input_error')
     })
 }
@@ -150,17 +162,23 @@ const saveProfileData = (name, subtitle) => {
 
 const submitEditForm = (e) => {
     e.preventDefault();
+    const popup = e.target.closest('.popup');
     if (nameInput && subtitleInput) {
         saveProfileData(nameInput.value, subtitleInput.value);
     }
-    closePopup(e.target.closest('.popup'));
+
+    closePopup(popup);
+    clearForm(popup);
 }
 
 const submitAddForm = (e) => {
     e.preventDefault();
+    const popup = e.target.closest('.popup');
     const mestoToPush = { 'name': placeTitleInput.value, 'link': placeLinkInput.value };
     addCardToDOM(mestoToPush);
-    closePopup(e.target.closest('.popup'));
+
+    closePopup(popup);
+    clearForm(popup);
 }
 
 init();

@@ -1,3 +1,12 @@
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.button_type_save',
+    inactiveButtonClass: 'button_type_inactive',
+    inputErrorClass: 'popup__input_error',
+    errorClass: 'popup__error'
+};
+
 const showError = (formElement, inputElement, errorMesage, config) => {
     const errorElement = formElement.querySelector(`.${config.errorClass}_${inputElement.id}`);
 
@@ -56,20 +65,7 @@ function enableValidation(config) {
     const formList = Array.from(document.querySelectorAll(config.formSelector));
     formList.map((formElement) => {
         setEventListener(formElement, config);
-        formElement.addEventListener('submit', (e) => {
-            e.preventDefault();
-            setEventListener(formElement);
-        })
     })
 }
 
-document.querySelectorAll(`.popup__form`).forEach(() => {
-    enableValidation({
-        formSelector: '.popup__form',
-        inputSelector: '.popup__input',
-        submitButtonSelector: '.button_type_save',
-        inactiveButtonClass: 'button_type_inactive',
-        inputErrorClass: 'popup__input_error',
-        errorClass: 'popup__error'
-    })
-});
+enableValidation(validationConfig);
