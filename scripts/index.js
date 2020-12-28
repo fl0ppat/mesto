@@ -77,13 +77,17 @@ const addCardToDOM = (elem) => {
 const createPopup = (type) => {
     switch (type) {
         case 'edit':
-            popupEdit.classList.add('popup_opened');
+            clearForm(popupEdit);
+            clearInputHandler(popupEdit)
             nameInput.value = showName.textContent;
             subtitleInput.value = showSubtitle.textContent;
+            popupEdit.classList.add('popup_opened');
             addCloseListeners(popupEdit);
             break;
 
         case 'add':
+            clearInputHandler(popupAdd);
+            clearForm(popupAdd);
             popupAdd.classList.add('popup_opened');
             addCloseListeners(popupAdd);
             break;
@@ -103,7 +107,6 @@ const getOpenedPopup = () => {
 const closePopupByButton = (e) => {
     if (e.key === 'Escape') {
         const popup = getOpenedPopup();
-        clearForm(popup);
         closePopup(popup);
     };
 }
@@ -112,7 +115,6 @@ const closePopupByClick = (e) => {
     const popup = getOpenedPopup();
     if (e.target.classList.contains('popup_opened') ||
         e.target.classList.contains('popup__close')) {
-        clearForm(popup)
         closePopup(popup);
     }
 }
@@ -134,24 +136,23 @@ function closePopup(popup) {
 }
 
 function clearForm(popup) {
-    const popupForm = popup.querySelector('.popup__form');
-    if (popupForm) {
-        popupForm.reset();
-        clearInputHandler(popupForm);
-    }
+    const popupForm = popup.querySelector(validationConfig.formSelector);
 
+    popupForm.reset();
 }
 
-function clearInputHandler(popupForm) {
-    popupForm.querySelectorAll('.popup__input').forEach((inputElement) => {
-        checkInputValidity(popupForm, inputElement, validationConfig)
-    })
+function clearInputHandler(popup) {
+    const popupForm = popup.querySelector(validationConfig.formSelector);
 
-    popupForm.querySelectorAll('.popup__error_visible').forEach((elem) => {
-        elem.classList.remove('popup__error_visible')
+    popupForm.querySelectorAll(`.${validationConfig.errorClass}_visible`).forEach((elem) => {
+        console.log(`.${validationConfig.errorClass}_visible`);
+        elem.classList.remove(`${validationConfig.errorClass}_visible`);
+        console.log(elem);
     })
-    popupForm.querySelectorAll('.popup__input_error').forEach((elem) => {
-        elem.classList.remove('popup__input_error')
+    popupForm.querySelectorAll(`.${validationConfig.inputErrorClass}`).forEach((elem) => {
+        console.log(elem);
+        elem.classList.remove(`${validationConfig.inputErrorClass}`);
+        console.log(elem);
     })
 }
 
