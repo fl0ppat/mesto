@@ -1,9 +1,10 @@
 export default class Card {
-  constructor(imageUrl, name, templateSelector) {
+  constructor(imageUrl, name, templateSelector, callback) {
     this._imageUrl = imageUrl;
     this._name = name;
     this._templateSelector = templateSelector;
     this._isLiked = false;
+    this._callback = callback;
   }
 
   _setCardEventListeners() {
@@ -11,11 +12,13 @@ export default class Card {
     this._cardDeleteButton.addEventListener("click", (e) => {
       this._delete(e);
     });
-    this._cardImage.addEventListener("click", (e) => {
-      popupFullImg.src = this._imageUrl;
-      popupFullImg.alt, (popupFull.querySelector(".popup__full-title").textContent = this._name);
-      createPopup("image");
-    });
+    this._cardImage.addEventListener("click", () => {
+      this._callback(this._imageUrl, this._name)
+    })
+  }
+
+  _openFull() {
+    prepareDataForFullImagePopup();
   }
 
   _like() {
@@ -24,8 +27,6 @@ export default class Card {
   }
 
   _delete(e) {
-    console.log(this);
-    console.log(e.target.offsetParent);
     e.target.offsetParent.remove();
   }
 

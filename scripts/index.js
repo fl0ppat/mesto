@@ -1,5 +1,6 @@
 import Card from "./Card.js";
 
+/** Template selector used in Card class */
 const cardTemplateSelector = "#mesto";
 
 const editButton = document.querySelector(".profile__edit");
@@ -9,11 +10,6 @@ const addButton = document.querySelector(".button_type_add");
 const popupEdit = document.querySelector("#edit");
 const popupAdd = document.querySelector("#add");
 const popupFull = document.querySelector("#full");
-
-/** Popups Close Buttons */
-const popupEditCloseButton = popupEdit.querySelector(".popup__close");
-const popupAddCloseButton = popupAdd.querySelector(".popup__close");
-const popupFullCloseButton = popupFull.querySelector(".popup__close");
 
 const popupFullImg = popupFull.querySelector(".popup__img");
 
@@ -33,7 +29,7 @@ const placeLinkInput = formAddCard.querySelector('input[name="image"]');
 const grid = document.querySelector(".grid-cards");
 const mestoTemplateContent = document.querySelector("#mesto").content;
 
-const init = () => {
+function init() {
   editButton.addEventListener("click", () => createPopup("edit"));
   addButton.addEventListener("click", () => createPopup("add"));
   formEditUserProfile.addEventListener("submit", submitEditForm);
@@ -45,8 +41,14 @@ const init = () => {
   });
 };
 
+const callbackForCard = (imageURL, name) => {
+  popupFullImg.src = imageURL;
+  popupFullImg.alt, popupFull.querySelector('.popup__full-title').textContent = name;
+  createPopup("image");
+}
+
 function createCard(obj, selector = cardTemplateSelector) {
-  const card = new Card(obj.link, obj.name, selector);
+  const card = new Card(obj.link, obj.name, selector, callbackForCard);
   return card.prepareCardToPrepend();
 }
 
@@ -80,8 +82,7 @@ function createCard(obj, selector = cardTemplateSelector) {
 
 */
 
-const addCardToDOM = (card) => {
-  console.log(card);
+function addCardToDOM(card) {
   grid.prepend(card);
 };
 
