@@ -1,4 +1,15 @@
+/**
+ * Class Card
+ */
 export default class Card {
+  /**
+   * Creates an instance of Card.
+   * @param {*} imageUrl          Link for image in WEB
+   * @param {*} name              Title for Card
+   * @param {*} templateSelector  HTML Selector for querySelector
+   * @param {*} callback          Callback for One of event listeners
+   * @memberof Card
+   */
   constructor(imageUrl, name, templateSelector, callback) {
     this._imageUrl = imageUrl;
     this._name = name;
