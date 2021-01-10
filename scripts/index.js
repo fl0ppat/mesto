@@ -1,5 +1,6 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import cards from "./initial-cards.js";
 
 const validationConfig = {
   formSelector: ".popup__form",
@@ -36,11 +37,14 @@ const formAddCard = document.querySelector("#formAdd");
 const placeTitleInput = formAddCard.querySelector('input[name="title"]');
 const placeLinkInput = formAddCard.querySelector('input[name="image"]');
 
+let formEditUserProfileValidate;
+let formEditAddCardValidate;
+
 const grid = document.querySelector(".grid-cards");
 
 function init() {
-  editButton.addEventListener("click", () => createPopup("edit"));
-  addButton.addEventListener("click", () => createPopup("add"));
+  editButton.addEventListener("click", openAuthorForm);
+  addButton.addEventListener("click", openAddCardForm);
   formEditUserProfile.addEventListener("submit", submitEditForm);
   formAddCard.addEventListener("submit", submitAddForm);
 
@@ -48,54 +52,49 @@ function init() {
   cards.forEach((elem) => {
     addCardToDOM(createCard(elem));
   });
-  [formEditUserProfile, formAddCard].forEach((form) => {
-    const formWithValidation = new FormValidator(validationConfig, form);
-    formWithValidation.enableValidation(form);
-  });
+
+  formEditUserProfileValidate = new FormValidator(validationConfig, formEditUserProfile);
+  formEditAddCardValidate = new FormValidator(validationConfig, formAddCard);
+
+  formEditUserProfileValidate.enableValidation(formEditUserProfile);
+  formEditAddCardValidate.enableValidation(formAddCard);
 }
 
 const callbackForCard = (imageURL, name) => {
   popupFullImg.src = imageURL;
-  popupFullImg.alt, (popupFull.querySelector(".popup__full-title").textContent = name);
-  createPopup("image");
+  popupFullImg.alt = name;
+  popupFull.querySelector(".popup__full-title").textContent = name;
+  openPopup(popupFull);
 };
 
 function createCard(obj, selector = cardTemplateSelector) {
   const card = new Card(obj.link, obj.name, selector, callbackForCard);
-  return card.prepareCardToPrepend();
+  return card.createCard();
 }
 
 function addCardToDOM(card) {
   grid.prepend(card);
 }
 
-const createPopup = (type) => {
-  switch (type) {
-    case "edit":
-      clearInputHandler(popupEdit);
-      nameInput.value = showName.textContent;
-      subtitleInput.value = showSubtitle.textContent;
-      popupEdit.classList.add("popup_opened");
-      popupEdit
-        .querySelector(validationConfig.submitButtonSelector)
-        .classList.remove(validationConfig.inactiveButtonClass);
-      addCloseListeners(popupEdit);
-      break;
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
+  addCloseListeners(popup);
+}
 
-    case "add":
-      clearInputHandler(popupAdd);
-      popupAdd.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass);
-      clearForm(popupAdd);
-      popupAdd.classList.add("popup_opened");
-      addCloseListeners(popupAdd);
-      break;
+function openAuthorForm() {
+  formEditUserProfileValidate.clearInputHandler(popupEdit);
+  nameInput.value = showName.textContent;
+  subtitleInput.value = showSubtitle.textContent;
+  popupEdit.querySelector(validationConfig.submitButtonSelector).classList.remove(validationConfig.inactiveButtonClass);
+  openPopup(popupEdit);
+}
 
-    case "image":
-      popupFull.classList.add("popup_opened");
-      addCloseListeners(popupFull);
-      break;
-  }
-};
+function openAddCardForm() {
+  formEditAddCardValidate.clearInputHandler(popupAdd);
+  popupAdd.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass);
+  clearForm(popupAdd);
+  openPopup(popupAdd);
+}
 
 const getOpenedPopup = () => {
   return document.querySelector(".popup_opened");
@@ -136,7 +135,7 @@ function clearForm(popup) {
   popupForm.reset();
 }
 
-function clearInputHandler(popup) {
+/*function clearInputHandler(popup) {
   const popupForm = popup.querySelector(validationConfig.formSelector);
 
   popupForm.querySelectorAll(`.${validationConfig.errorClass}_visible`).forEach((elem) => {
@@ -145,7 +144,7 @@ function clearInputHandler(popup) {
   popupForm.querySelectorAll(`.${validationConfig.inputErrorClass}`).forEach((elem) => {
     elem.classList.remove(`${validationConfig.inputErrorClass}`);
   });
-}
+}*/
 
 const saveProfileData = (name, subtitle) => {
   showName.textContent = name;

@@ -83,4 +83,13 @@ export default class FormValidator {
       this._setValidation(input);
     });
   }
+
+  clearInputHandler(popupForm) {
+    popupForm.querySelectorAll(`.${this._config.errorClass}_visible`).forEach((elem) => {
+      elem.classList.remove(`${this._config.errorClass}_visible`);
+    });
+    popupForm.querySelectorAll(`.${this._config.inputErrorClass}`).forEach((elem) => {
+      elem.classList.remove(`${this._config.inputErrorClass}`);
+    });
+  }
 }

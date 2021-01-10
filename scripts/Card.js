@@ -4,10 +4,10 @@
 export default class Card {
   /**
    * Creates an instance of Card.
-   * @param {*} imageUrl          Link for image in WEB
-   * @param {*} name              Title for Card
-   * @param {*} templateSelector  HTML Selector for querySelector
-   * @param {*} callback          Callback for One of event listeners
+   * @param {string} imageUrl          Link for image in WEB
+   * @param {string} name              Title for Card
+   * @param {object} templateSelector  HTML Selector for querySelector
+   * @param {object} callback          Callback for One of event listeners
    * @memberof Card
    */
   constructor(imageUrl, name, templateSelector, callback) {
@@ -24,8 +24,8 @@ export default class Card {
       this._delete(e);
     });
     this._cardImage.addEventListener("click", () => {
-      this._callback(this._imageUrl, this._name)
-    })
+      this._callback(this._imageUrl, this._name);
+    });
   }
 
   _openFull() {
@@ -41,7 +41,13 @@ export default class Card {
     e.target.offsetParent.remove();
   }
 
-  _createCardFromTemplate() {
+  /**
+   * Create HTML-ready card statement
+   *
+   * @return {object}
+   * @memberof Card
+   */
+  createCard() {
     const card = document.querySelector(this._templateSelector).content.cloneNode(true);
     this._cardImage = card.querySelector(".grid-cards__img");
     this._cardTitle = card.querySelector(".grid-cards__title");
@@ -49,13 +55,10 @@ export default class Card {
     this._cardDeleteButton = card.querySelector(".grid-cards__delete");
 
     this._cardImage.src = this._imageUrl;
+    this._cardImage.alt = this._name;
     this._cardTitle.textContent = this._name;
 
     this._setCardEventListeners();
     return card;
-  }
-
-  prepareCardToPrepend() {
-    return this._createCardFromTemplate();
   }
 }
