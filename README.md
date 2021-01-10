@@ -9,7 +9,8 @@
 - БЭМ
 - Flex
 - Grid
-- ES6 Syntax
+- ES6 Syntax (Arrow functions, classes, methods)
+- Modules
 
 **Figma**
 
