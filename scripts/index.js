@@ -37,8 +37,8 @@ const formAddCard = document.querySelector("#formAdd");
 const placeTitleInput = formAddCard.querySelector('input[name="title"]');
 const placeLinkInput = formAddCard.querySelector('input[name="image"]');
 
-let formEditUserProfileValidate;
-let formEditAddCardValidate;
+const formEditUserProfileValidate = new FormValidator(validationConfig, formEditUserProfile);
+const formEditAddCardValidate = new FormValidator(validationConfig, formAddCard);
 
 const grid = document.querySelector(".grid-cards");
 
@@ -52,9 +52,6 @@ function init() {
   cards.forEach((elem) => {
     addCardToDOM(createCard(elem));
   });
-
-  formEditUserProfileValidate = new FormValidator(validationConfig, formEditUserProfile);
-  formEditAddCardValidate = new FormValidator(validationConfig, formAddCard);
 
   formEditUserProfileValidate.enableValidation(formEditUserProfile);
   formEditAddCardValidate.enableValidation(formAddCard);
@@ -134,17 +131,6 @@ function clearForm(popup) {
   const popupForm = popup.querySelector(validationConfig.formSelector);
   popupForm.reset();
 }
-
-/*function clearInputHandler(popup) {
-  const popupForm = popup.querySelector(validationConfig.formSelector);
-
-  popupForm.querySelectorAll(`.${validationConfig.errorClass}_visible`).forEach((elem) => {
-    elem.classList.remove(`${validationConfig.errorClass}_visible`);
-  });
-  popupForm.querySelectorAll(`.${validationConfig.inputErrorClass}`).forEach((elem) => {
-    elem.classList.remove(`${validationConfig.inputErrorClass}`);
-  });
-}*/
 
 const saveProfileData = (name, subtitle) => {
   showName.textContent = name;
