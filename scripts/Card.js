@@ -28,12 +28,7 @@ export default class Card {
     });
   }
 
-  _openFull() {
-    prepareDataForFullImagePopup();
-  }
-
   _like() {
-    this._isLiked = !this._isLiked;
     this.classList.toggle("grid-cards__like_liked");
   }
 

@@ -2,6 +2,7 @@ export default class FormValidator {
   constructor(config, formElement) {
     this._config = config;
     this._formElement = formElement;
+    this._submitButton = this._formElement.querySelector(this._config.submitButtonSelector);
   }
 
   /**
@@ -25,13 +26,9 @@ export default class FormValidator {
    */
   _buttonActivityHandler(state) {
     if (state) {
-      this._formElement
-        .querySelector(this._config.submitButtonSelector)
-        .classList.remove(this._config.inactiveButtonClass);
+      this._submitButton.classList.remove(this._config.inactiveButtonClass);
     } else {
-      this._formElement
-        .querySelector(this._config.submitButtonSelector)
-        .classList.add(this._config.inactiveButtonClass);
+      this._submitButton.classList.add(this._config.inactiveButtonClass);
     }
   }
 
@@ -77,18 +74,18 @@ export default class FormValidator {
    * @param {object} formElement
    * @memberof FormValidator
    */
-  enableValidation(formElement) {
-    const arrayOfInputs = formElement.querySelectorAll(this._config.inputSelector);
+  enableValidation() {
+    const arrayOfInputs = this._formElement.querySelectorAll(this._config.inputSelector);
     arrayOfInputs.forEach((input) => {
       this._setValidation(input);
     });
   }
 
-  clearInputHandler(popupForm) {
-    popupForm.querySelectorAll(`.${this._config.errorClass}_visible`).forEach((elem) => {
+  clearInputHandler() {
+    this._formElement.querySelectorAll(`.${this._config.errorClass}_visible`).forEach((elem) => {
       elem.classList.remove(`${this._config.errorClass}_visible`);
     });
-    popupForm.querySelectorAll(`.${this._config.inputErrorClass}`).forEach((elem) => {
+    this._formElement.querySelectorAll(`.${this._config.inputErrorClass}`).forEach((elem) => {
       elem.classList.remove(`${this._config.inputErrorClass}`);
     });
   }
