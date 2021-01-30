@@ -1,93 +1,88 @@
+import {
+  profileEditButtonSelector,
+  addCardButtonSelector,
+  validationConfig,
+  formEditUserProfileSelector,
+  formAddCardSelector,
+  cardTemplateSelector,
+} from "./constants.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
-import cards from "./initial-cards.js";
+import { cards } from "./initial-cards.js";
+import PopupWithImage from "./PopupWithImage.js";
+import PopupWithForm from "./PopupWithForm.js";
+import Section from "./Section.js";
+import UserInfo from "./UserInfo.js";
 
-const validationConfig = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".button_type_save",
-  inactiveButtonClass: "button_type_inactive",
-  inputErrorClass: "popup__input_error",
-  errorClass: "popup__error",
-};
+const userInfo = new UserInfo({ elementWithName: ".profile__name", elementWithInfo: ".profile__subtitle" });
 
-/** Template selector used in Card class */
-const cardTemplateSelector = "#mesto";
+const formEditUserProfile = document.querySelector(formEditUserProfileSelector);
+const formEditUserProfileInputs = formEditUserProfile.querySelectorAll("input");
 
-const editButton = document.querySelector(".profile__edit");
-const addButton = document.querySelector(".button_type_add");
-
-/** Popups */
-const popupEdit = document.querySelector("#edit");
-const popupAdd = document.querySelector("#add");
-const popupFull = document.querySelector("#full");
-
-const popupFullImg = popupFull.querySelector(".popup__img");
-
-const showName = document.querySelector(".profile__name");
-const showSubtitle = document.querySelector(".profile__subtitle");
-
-/** Edit profile form */
-const formEditUserProfile = document.querySelector("#formEdit");
-const nameInput = formEditUserProfile.querySelector('input[name="name"]');
-const subtitleInput = formEditUserProfile.querySelector('input[name="subtitle"]');
-
-/** Add mesto form */
-const formAddCard = document.querySelector("#formAdd");
-const placeTitleInput = formAddCard.querySelector('input[name="title"]');
-const placeLinkInput = formAddCard.querySelector('input[name="image"]');
+const formAddCard = document.querySelector(formAddCardSelector);
 
 const formEditUserProfileValidate = new FormValidator(validationConfig, formEditUserProfile);
-const formEditAddCardValidate = new FormValidator(validationConfig, formAddCard);
+const formAddCardValidate = new FormValidator(validationConfig, formAddCard);
 
-const grid = document.querySelector(".grid-cards");
+document.querySelector(profileEditButtonSelector).addEventListener("click", () => {
+  const info = userInfo.getUserInfo();
+  formEditUserProfileInputs[0].value = info.name;
+  formEditUserProfileInputs[1].value = info.info;
+  popupEdit.open();
+});
 
-function init() {
-  editButton.addEventListener("click", openAuthorForm);
-  addButton.addEventListener("click", openAddCardForm);
-  formEditUserProfile.addEventListener("submit", submitEditForm);
-  formAddCard.addEventListener("submit", submitAddForm);
+document.querySelector(addCardButtonSelector).addEventListener("click", () => {
+  formAddCardValidate.buttonActivityHandler(false);
+  popupAdd.open();
+});
 
-  // eslint-disable-next-line no-undef
-  cards.forEach((elem) => {
-    addCardToDOM(createCard(elem));
-  });
+formEditUserProfileValidate.enableValidation(formEditUserProfile);
+formAddCardValidate.enableValidation(formAddCard);
 
-  formEditUserProfileValidate.enableValidation(formEditUserProfile);
-  formEditAddCardValidate.enableValidation(formAddCard);
-}
+const renderer = (item) => {
+  const card = new Card(item.link, item.name, cardTemplateSelector, openFullImageCallback.bind(item.link, item.name));
+  return card.createCard();
+};
 
-const callbackForCard = (imageURL, name) => {
+/* Callbacks */
+const openFullImageCallback = (link, name) => popupFullImage.open(link, name);
+const updateUserInfoCallback = ({ name, subtitle }) => {
+  userInfo.setUserInfo(name, subtitle);
+};
+const submitToAddCardCallback = (item) => {
+  section.addItem(item);
+};
+
+const section = new Section({ cards, renderer }, ".grid-cards");
+section.renderAllItems();
+
+/* Popups */
+const popupEdit = new PopupWithForm("#edit", updateUserInfoCallback, formEditUserProfileValidate);
+popupEdit.setEventListeners();
+
+const popupAdd = new PopupWithForm("#add", submitToAddCardCallback, formAddCardValidate);
+popupAdd.setEventListeners();
+
+const popupFullImage = new PopupWithImage("#full");
+popupFullImage.setEventListeners();
+
+/*const callbackForCard = (imageURL, name) => {
   popupFullImg.src = imageURL;
   popupFullImg.alt = name;
   popupFull.querySelector(".popup__full-title").textContent = name;
   openPopup(popupFull);
 };
 
-function createCard(obj, selector = cardTemplateSelector) {
-  const card = new Card(obj.link, obj.name, selector, callbackForCard);
-  return card.createCard();
-}
-
-function addCardToDOM(card) {
-  grid.prepend(card);
-}
-
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-  addCloseListeners(popup);
-}
-
 function openAuthorForm() {
   formEditUserProfileValidate.clearInputHandler(popupEdit);
   nameInput.value = showName.textContent;
   subtitleInput.value = showSubtitle.textContent;
-  popupEdit.querySelector(validationConfig.submitButtonSelector).classList.remove(validationConfig.inactiveButtonClass);
-  openPopup(popupEdit);
+  //popupEdit.open();
+  //popupEdit.querySelector(validationConfig.submitButtonSelector).classList.remove(validationConfig.inactiveButtonClass);
 }
 
 function openAddCardForm() {
-  formEditAddCardValidate.clearInputHandler(popupAdd);
+  formAddCardValidate.clearInputHandler(popupAdd);
   popupAdd.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass);
   clearForm(popupAdd);
   openPopup(popupAdd);
@@ -156,6 +151,4 @@ const submitAddForm = (e) => {
 
   closePopup(popup);
   clearForm(popup);
-};
-
-init();
+};*/
