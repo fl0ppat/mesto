@@ -30,6 +30,7 @@ document.querySelector(profileEditButtonSelector).addEventListener("click", () =
   const info = userInfo.getUserInfo();
   formEditUserProfileInputs[0].value = info.name;
   formEditUserProfileInputs[1].value = info.info;
+  formAddCardValidate.buttonActivityHandler(true);
   popupEdit.open();
 });
 
