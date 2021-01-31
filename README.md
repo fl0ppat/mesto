@@ -2,7 +2,9 @@
 
 ### Обзор
 
-[Ссылка на проект](https://fl0ppat.github.io/mesto/)
+[Ссылка на проект](https://posmotrina.site/mesto/)
+
+> webpack --mode production
 
 Проект сделан с применением:
 
