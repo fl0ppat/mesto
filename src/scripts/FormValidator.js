@@ -24,7 +24,7 @@ export default class FormValidator {
    * @param {boolean} state
    * @memberof FormValidator
    */
-  _buttonActivityHandler(state) {
+  buttonActivityHandler(state) {
     if (state) {
       this._submitButton.classList.remove(this._config.inactiveButtonClass);
     } else {
@@ -54,6 +54,8 @@ export default class FormValidator {
       submitButton.classList.remove(this._config.inactiveButtonClass);
     }
     errorElement.textContent = inputElement.validationMessage;
+
+    this.buttonActivityHandler(state);
   }
 
   /**
@@ -65,7 +67,7 @@ export default class FormValidator {
    */
   _checkInputValidity(formElement, inputElement) {
     this._errorVisibilityHandler(!inputElement.validity.valid, inputElement);
-    this._buttonActivityHandler(formElement.checkValidity());
+    this.buttonActivityHandler(formElement.checkValidity());
   }
 
   /**
@@ -81,11 +83,11 @@ export default class FormValidator {
     });
   }
 
-  clearInputHandler() {
-    this._formElement.querySelectorAll(`.${this._config.errorClass}_visible`).forEach((elem) => {
+  clearInputHandler(formElement) {
+    formElement.querySelectorAll(`.${this._config.errorClass}_visible`).forEach((elem) => {
       elem.classList.remove(`${this._config.errorClass}_visible`);
     });
-    this._formElement.querySelectorAll(`.${this._config.inputErrorClass}`).forEach((elem) => {
+    formElement.querySelectorAll(`.${this._config.inputErrorClass}`).forEach((elem) => {
       elem.classList.remove(`${this._config.inputErrorClass}`);
     });
   }

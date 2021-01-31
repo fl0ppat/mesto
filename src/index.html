@@ -5,18 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body class="page">
     <header class="header">
         <a href="#" target="_blank" class="header__logo-link">
-            <img src="./blocks/header/__logo-img/Vector.svg" alt="Логотип" class="header__logo-img">
+            <img src='<%=require("./blocks/header/__logo-img/Vector.svg")%>' alt="Логотип" class="header__logo-img">
         </a>
     </header>
     <main>
         <section class="profile">
-            <img src="./blocks/profile/__avatar/Avatar.png" alt="Аватар" class="profile__avatar">
+            <img src='<%=require("./blocks/profile/__avatar/Avatar.png")%>' alt="Аватар" class="profile__avatar">
             <div class="profile__info">
                 <div class="profile__wrapper">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -41,10 +40,10 @@
                 <button type="button" class="popup__close"></button>
                 <h2 class="popup__title">Редактировать профиль</h2>
 
-                <input id="name-input" autocomplete="off" required minlength="2" maxlength="40" value="Жак-Ив Кусто" name="name" placeholder="Имя" class="popup__input" type="text">
+                <input id="name-input" autocomplete="off" required minlength="2" maxlength="40" value="" name="name" placeholder="Имя" class="popup__input" type="text">
                 <span class="popup__error popup__error_name-input"></span>
 
-                <input id="subtitle-input" autocomplete="off" required minlength="2" maxlength="200" value="Исследователь океана" name="subtitle" placeholder="Заслуга" class="popup__input" type="text">
+                <input id="subtitle-input" autocomplete="off" required minlength="2" maxlength="200" value="" name="subtitle" placeholder="Заслуга" class="popup__input" type="text">
                 <span class="popup__error popup__error_subtitle-input"></span>
 
                 <button class="button button_type_save" type="submit">Сохранить</button>
@@ -57,10 +56,10 @@
                 <button type="button" class="popup__close"></button>
                 <h2 class="popup__title">Новое место</h2>
 
-                <input id="title-input" required value="" minlength="2" maxlength="30" name="title" autocomplete="off" placeholder="Название" class="popup__input" type="text">
+                <input id="title-input" required value="" minlength="2" maxlength="30" name="name" autocomplete="off" placeholder="Название" class="popup__input" type="text">
                 <span class="popup__error popup__error_title-input"></span>
 
-                <input id="image-input" required value="" name="image" type="url" autocomplete="off" placeholder="Ссылка на картинку" class="popup__input">
+                <input id="image-input" required value="" name="link" type="url" autocomplete="off" placeholder="Ссылка на картинку" class="popup__input">
                 <span class="popup__error popup__error_image-input"></span>
 
                 <button class="button button_type_save button_type_inactive" type="submit">Сохранить</button>
@@ -84,6 +83,5 @@
       </div>
     </li>
   </template>
-    <script type="module" src="./scripts/index.js"></script>
    </body>
 </html>
