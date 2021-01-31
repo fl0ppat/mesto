@@ -1,3 +1,5 @@
+import "../pages/index.css";
+
 import {
   profileEditButtonSelector,
   addCardButtonSelector,
