@@ -28,14 +28,9 @@ export default class PopupWithForm extends Popup {
     });
   }
 
-  open() {
-    //this._validator.clearInputHandler(this._formElement);
-    super.open();
-  }
-
   close() {
     this._formElement.reset();
-    this._validator.clearInputHandler(this._formElement);
+    this._validator.handleClearInputs(this._formElement);
     super.close();
   }
 }
