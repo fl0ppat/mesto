@@ -46,20 +46,12 @@ export default class Popup {
     }
   }
 
-  _handleCloseButtonClick() {
-    this.close();
-  }
-
   _handleCloseByClickOnEmptySpace(event) {
     if (event.target.classList.contains("popup_opened") || event.target.classList.contains("popup__close")) {
       this.close();
     }
   }
   setEventListeners() {
-    this._popupElement.querySelector(".popup__close").addEventListener("click", () => {
-      this._handleCloseButtonClick();
-    });
-
     this._popupElement.addEventListener("click", (e) => {
       this._handleCloseByClickOnEmptySpace(e);
     });

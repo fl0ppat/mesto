@@ -10,4 +10,5 @@ export const validationConfig = {
   inactiveButtonClass: "button_type_inactive",
   inputErrorClass: "popup__input_error",
   errorClass: "popup__error",
+  errorClassVisible: "popup__error_visible",
 };

@@ -24,7 +24,7 @@ export default class FormValidator {
    * @param {boolean} state
    * @memberof FormValidator
    */
-  buttonActivityHandler(state) {
+  handleButtonActivity(state) {
     if (state) {
       this._submitButton.classList.remove(this._config.inactiveButtonClass);
     } else {
@@ -41,21 +41,21 @@ export default class FormValidator {
    * @param {string} errorMessage
    * @memberof FormValidator
    */
-  _errorVisibilityHandler(state, inputElement) {
+  _handleErrorVisibility(state, inputElement) {
     const errorElement = this._formElement.querySelector(`.${this._config.errorClass}_${inputElement.id}`);
     if (state) {
-      errorElement.classList.add(`${this._config.errorClass}_visible`);
+      errorElement.classList.add(this._config.errorClassVisible);
       inputElement.classList.add(this._config.inputErrorClass);
     } else {
       const submitButton = this._formElement.querySelector(this._config.submitButtonSelector);
 
-      errorElement.classList.remove(`${this._config.errorClass}_visible`);
+      errorElement.classList.remove(this._config.errorClassVisible);
       inputElement.classList.remove(this._config.inputErrorClass);
       submitButton.classList.remove(this._config.inactiveButtonClass);
     }
     errorElement.textContent = inputElement.validationMessage;
 
-    this.buttonActivityHandler(state);
+    this.handleButtonActivity(state);
   }
 
   /**
@@ -66,8 +66,8 @@ export default class FormValidator {
    * @memberof FormValidator
    */
   _checkInputValidity(formElement, inputElement) {
-    this._errorVisibilityHandler(!inputElement.validity.valid, inputElement);
-    this.buttonActivityHandler(formElement.checkValidity());
+    this._handleErrorVisibility(!inputElement.validity.valid, inputElement);
+    this.handleButtonActivity(formElement.checkValidity());
   }
 
   /**
@@ -83,7 +83,7 @@ export default class FormValidator {
     });
   }
 
-  clearInputHandler(formElement) {
+  handleClearInputs(formElement) {
     formElement.querySelectorAll(`.${this._config.errorClass}_visible`).forEach((elem) => {
       elem.classList.remove(`${this._config.errorClass}_visible`);
     });

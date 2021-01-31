@@ -19,7 +19,10 @@ import UserInfo from "./UserInfo.js";
 const userInfo = new UserInfo({ elementWithName: ".profile__name", elementWithInfo: ".profile__subtitle" });
 
 const formEditUserProfile = document.querySelector(formEditUserProfileSelector);
-const formEditUserProfileInputs = formEditUserProfile.querySelectorAll("input");
+const formEditUserProfileInputs = {
+  name: formEditUserProfile.querySelector("#name-input"),
+  info: formEditUserProfile.querySelector("#subtitle-input"),
+};
 
 const formAddCard = document.querySelector(formAddCardSelector);
 
@@ -28,14 +31,14 @@ const formAddCardValidate = new FormValidator(validationConfig, formAddCard);
 
 document.querySelector(profileEditButtonSelector).addEventListener("click", () => {
   const info = userInfo.getUserInfo();
-  formEditUserProfileInputs[0].value = info.name;
-  formEditUserProfileInputs[1].value = info.info;
-  formAddCardValidate.buttonActivityHandler(true);
+  formEditUserProfileInputs.name.value = info.name;
+  formEditUserProfileInputs.info.value = info.info;
+  formEditUserProfileValidate.handleButtonActivity(1);
   popupEdit.open();
 });
 
 document.querySelector(addCardButtonSelector).addEventListener("click", () => {
-  formAddCardValidate.buttonActivityHandler(false);
+  formAddCardValidate.handleButtonActivity(false);
   popupAdd.open();
 });
 
