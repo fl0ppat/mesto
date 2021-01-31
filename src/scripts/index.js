@@ -41,11 +41,6 @@ document.querySelector(addCardButtonSelector).addEventListener("click", () => {
 formEditUserProfileValidate.enableValidation(formEditUserProfile);
 formAddCardValidate.enableValidation(formAddCard);
 
-const renderer = (item) => {
-  const card = new Card(item.link, item.name, cardTemplateSelector, openFullImageCallback.bind(item.link, item.name));
-  return card.createCard();
-};
-
 /* Callbacks */
 const openFullImageCallback = (link, name) => popupFullImage.open(link, name);
 const updateUserInfoCallback = ({ name, subtitle }) => {
@@ -55,6 +50,12 @@ const submitToAddCardCallback = (item) => {
   section.addItem(item);
 };
 
+const renderer = (item) => {
+  const card = new Card(item.link, item.name, cardTemplateSelector, openFullImageCallback.bind(item.link, item.name));
+  return card.createCard();
+};
+
+/* Section */
 const section = new Section({ cards, renderer }, ".grid-cards");
 section.renderAllItems();
 
@@ -67,90 +68,3 @@ popupAdd.setEventListeners();
 
 const popupFullImage = new PopupWithImage("#full");
 popupFullImage.setEventListeners();
-
-/*const callbackForCard = (imageURL, name) => {
-  popupFullImg.src = imageURL;
-  popupFullImg.alt = name;
-  popupFull.querySelector(".popup__full-title").textContent = name;
-  openPopup(popupFull);
-};
-
-function openAuthorForm() {
-  formEditUserProfileValidate.clearInputHandler(popupEdit);
-  nameInput.value = showName.textContent;
-  subtitleInput.value = showSubtitle.textContent;
-  //popupEdit.open();
-  //popupEdit.querySelector(validationConfig.submitButtonSelector).classList.remove(validationConfig.inactiveButtonClass);
-}
-
-function openAddCardForm() {
-  formAddCardValidate.clearInputHandler(popupAdd);
-  popupAdd.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass);
-  clearForm(popupAdd);
-  openPopup(popupAdd);
-}
-
-const getOpenedPopup = () => {
-  return document.querySelector(".popup_opened");
-};
-
-const closePopupByButton = (e) => {
-  if (e.key === "Escape") {
-    const popup = getOpenedPopup();
-    closePopup(popup);
-  }
-};
-
-const closePopupByClick = (e) => {
-  const popup = getOpenedPopup();
-  if (e.target.classList.contains("popup_opened") || e.target.classList.contains("popup__close")) {
-    closePopup(popup);
-  }
-};
-
-const addCloseListeners = (popup) => {
-  document.addEventListener("keydown", closePopupByButton);
-  popup.addEventListener("click", closePopupByClick);
-};
-
-function clearListener(elem, event, callback) {
-  elem.removeEventListener(event, callback, false);
-}
-
-function closePopup(popup) {
-  clearListener(popup, "click", closePopupByClick);
-  clearListener(document, "keydown", closePopupByButton);
-
-  popup.classList.remove("popup_opened");
-}
-
-function clearForm(popup) {
-  const popupForm = popup.querySelector(validationConfig.formSelector);
-  popupForm.reset();
-}
-
-const saveProfileData = (name, subtitle) => {
-  showName.textContent = name;
-  showSubtitle.textContent = subtitle;
-};
-
-const submitEditForm = (e) => {
-  e.preventDefault();
-  const popup = e.target.closest(".popup");
-  if (nameInput && subtitleInput) {
-    saveProfileData(nameInput.value, subtitleInput.value);
-  }
-
-  closePopup(popup);
-  clearForm(popup);
-};
-
-const submitAddForm = (e) => {
-  e.preventDefault();
-  const popup = e.target.closest(".popup");
-  const mestoToPush = { name: placeTitleInput.value, link: placeLinkInput.value };
-  addCardToDOM(createCard(mestoToPush));
-
-  closePopup(popup);
-  clearForm(popup);
-};*/

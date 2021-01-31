@@ -1,3 +1,9 @@
+/**
+ *
+ *
+ * @export
+ * @class UserInfo
+ */
 export default class UserInfo {
   constructor({ elementWithName, elementWithInfo }) {
     this._elementWithName = document.querySelector(elementWithName);

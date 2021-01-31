@@ -1,3 +1,9 @@
+/**
+ *
+ *
+ * @export
+ * @class Section
+ */
 export default class Section {
   constructor({ cards, renderer }, containerSelector) {
     this._listOfItems = cards;

@@ -1,16 +1,37 @@
+/**
+ * Popup object. Used for DOM manipulation.
+ *
+ * @export
+ * @class Popup
+ */
 export default class Popup {
+  /**
+   * Creates an instance of Popup.
+   * @param {string} popupSelector Search selector in DOM
+   * @memberof Popup
+   */
   constructor(popupSelector) {
     this._popupElement = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._isOpen = false;
   }
 
+  /**
+   * Make bound HTML-instance visible
+   *
+   * @memberof Popup
+   */
   open() {
     this._isOpen = !this._isOpen;
     this._popupElement.classList.add("popup_opened");
     document.addEventListener("keydown", this._handleEscClose);
   }
 
+  /**
+   * Make bound HTML-instance invisible
+   *
+   * @memberof Popup
+   */
   close() {
     if (this._isOpen) {
       this._isOpen = !this._isOpen;
@@ -34,7 +55,6 @@ export default class Popup {
       this.close();
     }
   }
-
   setEventListeners() {
     this._popupElement.querySelector(".popup__close").addEventListener("click", () => {
       this._handleCloseButtonClick();
