@@ -51,6 +51,7 @@ export default class Popup {
       this.close();
     }
   }
+
   setEventListeners() {
     this._popupElement.addEventListener("click", (e) => {
       this._handleCloseByClickOnEmptySpace(e);

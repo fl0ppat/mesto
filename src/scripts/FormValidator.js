@@ -3,6 +3,7 @@ export default class FormValidator {
     this._config = config;
     this._formElement = formElement;
     this._submitButton = this._formElement.querySelector(this._config.submitButtonSelector);
+    console.log(this);
   }
 
   /**
@@ -42,7 +43,9 @@ export default class FormValidator {
    * @memberof FormValidator
    */
   _handleErrorVisibility(state, inputElement) {
+    console.log(inputElement);
     const errorElement = this._formElement.querySelector(`.${this._config.errorClass}_${inputElement.id}`);
+    console.log(errorElement);
     if (state) {
       errorElement.classList.add(this._config.errorClassVisible);
       inputElement.classList.add(this._config.inputErrorClass);

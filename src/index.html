@@ -15,7 +15,9 @@
     </header>
     <main>
         <section class="profile">
-            <img src='<%=require("./blocks/profile/__avatar/Avatar.png")%>' alt="Аватар" class="profile__avatar">
+            <div class="profile__avatar">
+                <div class="profile__change-icon"></div>
+            </div>
             <div class="profile__info">
                 <div class="profile__wrapper">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -26,8 +28,8 @@
             <button type="button" class="button button_type_add"></button>
         </section>
         <section class="cards">
+            <div class="loading"></div>
             <ul class="grid-cards">
-
             </ul>
         </section>
     </main>
@@ -47,6 +49,26 @@
                 <span class="popup__error popup__error_subtitle-input"></span>
 
                 <button class="button button_type_save" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </section>
+    <section class="popup" id="confirm">
+        <div class="popup__container">
+            <form class="popup__form" id="formConfirmDelete" name="deleteCard" action="." novalidate>
+                <button type="button" class="popup__close"></button>
+                <h2 class="popup__title">Вы уверены?</h2>
+                <button class="button button_type_save" type="submit">Да</button>
+            </form>
+        </div>
+    </section>
+    <section class="popup" id="updateAvatar">
+        <div class="popup__container">
+            <form class="popup__form" id="formUpdateAvatar" name="updateAvatar" action="." novalidate>
+                <button type="button" class="popup__close"></button>
+                <h2 class="popup__title">Обновить аватар</h2>
+                <input id="image-input" required value="" name="link" type="url" autocomplete="off" placeholder="Ссылка на автатар" class="popup__input">
+                <span class="popup__error popup__error_title-input"></span>
+                <button class="button button_type_save button_type_inactive" type="submit">Да</button>
             </form>
         </div>
     </section>

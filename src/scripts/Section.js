@@ -5,7 +5,7 @@
  * @class Section
  */
 export default class Section {
-  constructor({ cards, renderer }, containerSelector) {
+  constructor(cards, renderer, containerSelector) {
     this._listOfItems = cards;
     this._renderExpression = renderer;
     this._container = document.querySelector(containerSelector);

@@ -1,4 +1,9 @@
 .profile__avatar {
   max-width: 120px;
   width: 100%;
+  cursor: pointer;
+  background-image: url("./Avatar.png");
+  min-height: 120px;
+  height: 100%;
+  border-radius: 50%;
 }
