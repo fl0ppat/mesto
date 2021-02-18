@@ -10,12 +10,22 @@ export default class PopupWithForm extends Popup {
   constructor(popupSelector, submitCallback, validator) {
     super(popupSelector);
     this._formElement = this._popupElement.querySelector(`.popup__form`);
+    this._submitButton = this._formElement.querySelector(`button[type="submit"]`);
     this._submitCallback = submitCallback;
     this._validator = validator;
   }
 
   _getInputValues() {
     return Object.fromEntries(new FormData(this._formElement).entries());
+  }
+
+  /**
+   * Change text in button
+   *
+   * @param {string} message
+   */
+  handleProcessing(message) {
+    this._submitButton.textContent = message;
   }
 
   setEventListeners() {

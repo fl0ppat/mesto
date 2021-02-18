@@ -76,23 +76,27 @@ formUpdateAvatarValidate.enableValidation(formUpdateAvatar);
 /* Callbacks */
 const openFullImageCallback = (link, name) => popupFullImage.open(link, name);
 const updateUserInfoCallback = ({ name, subtitle }) => {
-  API.editProfileData(name, subtitle).then(userInfo.setUserInfo(name, subtitle));
+  popupEdit.handleProcessing("Обновляю...");
+  API.editProfileData(name, subtitle)
+    .then(userInfo.setUserInfo(name, subtitle))
+    .then(popupEdit.handleProcessing("Сохранить"));
 };
 
 const submitToUpdateAvatarCallback = (link) => {
+  popupUpdateAvatar.handleProcessing("Обновляю...");
   formUpdateAvatarValidate.handleButtonActivity(false);
-  API.updateAvatar(link.link).then(userInfo.updateUserAvatar(link.link));
+  API.updateAvatar(link.link)
+    .then(userInfo.updateUserAvatar(link.link))
+    .then(popupUpdateAvatar.handleProcessing("Сохранить"));
 };
 
 const submitToAddCardCallback = (item) => {
-  API.addNewCard(item.name, item.link).then(() => {
-    //TODO Получать данные из ответа
-    item.owner = {
-      _id: userInfo.getUserId(),
-    };
-    item.likes = [];
-    section.addItem(item);
-  });
+  popupAdd.handleProcessing("Добавляю...");
+  API.addNewCard(item.name, item.link)
+    .then((res) => {
+      section.addItem(res);
+    })
+    .then(popupAdd.handleProcessing("Сохранить"));
 };
 
 const deleteCardCallback = (card) => {
