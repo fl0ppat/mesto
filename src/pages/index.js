@@ -13,6 +13,7 @@ import {
   avatarSelector,
 } from "../scripts/constants.js";
 import Api from "../scripts/Api.js";
+import initialCards from "../scripts/initial-cards.js";
 import Card from "../scripts/Card.js";
 import FormValidator from "../scripts/FormValidator.js";
 import PopupWithImage from "../scripts/PopupWithImage.js";
@@ -64,6 +65,7 @@ document.querySelector(addCardButtonSelector).addEventListener("click", () => {
 });
 
 avatarElement.addEventListener("click", () => {
+  formUpdateAvatarValidate.handleButtonActivity(false);
   popupUpdateAvatar.open();
 });
 
@@ -77,10 +79,14 @@ const updateUserInfoCallback = ({ name, subtitle }) => {
   API.editProfileData(name, subtitle).then(userInfo.setUserInfo(name, subtitle));
 };
 
-const submitToUpdateAvatarCallback = (link) => {};
+const submitToUpdateAvatarCallback = (link) => {
+  formUpdateAvatarValidate.handleButtonActivity(false);
+  API.updateAvatar(link.link).then(userInfo.updateUserAvatar(link.link));
+};
 
 const submitToAddCardCallback = (item) => {
   API.addNewCard(item.name, item.link).then(() => {
+    //TODO Получать данные из ответа
     item.owner = {
       _id: userInfo.getUserId(),
     };
@@ -125,12 +131,19 @@ const section = new Section([], renderer, ".grid-cards");
 
 /* Section */
 function loadAllCards() {
-  API.getInitialCards().then((res) => {
-    loader.style.display = "none";
-    res.reverse().forEach((card) => {
-      section.addItem(card);
+  API.getInitialCards()
+    .then((res) => {
+      loader.style.display = "none";
+      res.reverse().forEach((card) => {
+        section.addItem(card);
+      });
+    })
+    .catch(() => {
+      loader.style.display = "none";
+      initialCards.forEach((card) => {
+        section.addItem(card);
+      });
     });
-  });
 }
 
 /* Popups */
@@ -146,6 +159,7 @@ popupFullImage.setEventListeners();
 const popupConfirmDeleteCard = new PopupWithConfirmation("#confirm");
 popupConfirmDeleteCard.setEventListeners();
 
-const popupUpdateAvatar = new PopupWithForm("#updateAvatar", submitToUpdateAvatarCallback);
+const popupUpdateAvatar = new PopupWithForm("#updateAvatar", submitToUpdateAvatarCallback, formUpdateAvatarValidate);
+popupUpdateAvatar.setEventListeners();
 
 loadAllCards();

@@ -53,6 +53,18 @@ export default class Api {
     );
   }
 
+  updateAvatar(link) {
+    console.log(link);
+    return this._sendRequest(
+      "PATCH", 
+      `https://mesto.nomoreparties.co/v1/${this._id}/users/me/avatar`,
+      { "Content-Type": "application/json" },
+      { avatar: link }
+    ).then((res) => {
+      this._handleResponseStatus(res);
+    });
+  }
+
   _handleResponseStatus(res) {
     if (res.ok) {
       return res.json();

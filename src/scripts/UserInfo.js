@@ -23,10 +23,14 @@ export default class UserInfo {
     return this._userId;
   }
 
+  updateUserAvatar(link) {
+    this._elementWithAvatar.style.backgroundImage = `url(${link})`
+  }
+
   setUserInfo(name, info, url, id) {
     this._elementWithName.textContent = name;
     this._elementWithInfo.textContent = info;
-    this._elementWithAvatar.src = url;
+    this.updateUserAvatar(url)
     this._userId = id;
   }
 }
