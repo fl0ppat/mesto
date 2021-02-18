@@ -11,6 +11,7 @@ import {
   loaderSelector,
   formUpdateAvatarSelector,
   avatarSelector,
+  skeletonSelector,
 } from "../scripts/constants.js";
 import Api from "../scripts/Api.js";
 import initialCards from "../scripts/initial-cards.js";
@@ -23,6 +24,7 @@ import Section from "../scripts/Section.js";
 import UserInfo from "../scripts/UserInfo.js";
 
 const loader = document.querySelector(loaderSelector);
+const skeletonElements = document.querySelectorAll("." + skeletonSelector);
 
 const API = new Api(apiAuthData);
 const userInfo = new UserInfo(
@@ -35,6 +37,10 @@ const userInfo = new UserInfo(
 );
 
 API.getUserData().then((res) => {
+  skeletonElements.forEach((element) => {
+    console.log(element);
+    element.classList.remove(skeletonSelector);
+  });
   userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
 });
 

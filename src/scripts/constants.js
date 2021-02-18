@@ -10,6 +10,7 @@ export const apiAuthData = {
   token: "17ffbe73-0340-4500-99b3-d234b713ebb3",
   id: "cohort-20",
 };
+export const skeletonSelector = "skeleton";
 export const validationConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
