@@ -38,7 +38,6 @@ const userInfo = new UserInfo(
 
 API.getUserData().then((res) => {
   skeletonElements.forEach((element) => {
-    console.log(element);
     element.classList.remove(skeletonSelector);
   });
   userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
@@ -84,7 +83,7 @@ const openFullImageCallback = (link, name) => popupFullImage.open(link, name);
 const updateUserInfoCallback = ({ name, subtitle }) => {
   popupEdit.handleProcessing("Обновляю...");
   API.editProfileData(name, subtitle)
-    .then(userInfo.setUserInfo(name, subtitle))
+    .then(userInfo.updateUserData(name, subtitle))
     .then(popupEdit.handleProcessing("Сохранить"));
 };
 

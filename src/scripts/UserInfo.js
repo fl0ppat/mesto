@@ -24,13 +24,17 @@ export default class UserInfo {
   }
 
   updateUserAvatar(link) {
-    this._elementWithAvatar.style.backgroundImage = `url(${link})`
+    this._elementWithAvatar.style.backgroundImage = `url(${link})`;
+  }
+
+  updateUserData(name, info) {
+    this._elementWithName.textContent = name;
+    this._elementWithInfo.textContent = info;
   }
 
   setUserInfo(name, info, url, id) {
-    this._elementWithName.textContent = name;
-    this._elementWithInfo.textContent = info;
-    this.updateUserAvatar(url)
+    this.updateUserData(name, info);
+    this.updateUserAvatar(url);
     this._userId = id;
   }
 }
