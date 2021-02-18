@@ -26,7 +26,7 @@ import UserInfo from "../scripts/UserInfo.js";
 const loader = document.querySelector(loaderSelector);
 const skeletonElements = document.querySelectorAll("." + skeletonSelector);
 
-const API = new Api(apiAuthData);
+const Api = new Api(apiAuthData);
 const userInfo = new UserInfo(
   {
     elementWithName: ".profile__name",
@@ -36,7 +36,7 @@ const userInfo = new UserInfo(
   "0"
 );
 
-API.getUserData().then((res) => {
+Api.getUserData().then((res) => {
   skeletonElements.forEach((element) => {
     element.classList.remove(skeletonSelector);
   });
@@ -82,22 +82,22 @@ formUpdateAvatarValidate.enableValidation(formUpdateAvatar);
 const openFullImageCallback = (link, name) => popupFullImage.open(link, name);
 const updateUserInfoCallback = ({ name, subtitle }) => {
   popupEdit.handleProcessing("Обновляю...");
-  API.editProfileData(name, subtitle)
-    .then(userInfo.updateUserData(name, subtitle))
+  Api.editProfileData(name, subtitle)
+    .then(userInfo.setUserInfo(name, subtitle))
     .then(popupEdit.handleProcessing("Сохранить"));
 };
 
 const submitToUpdateAvatarCallback = (link) => {
   popupUpdateAvatar.handleProcessing("Обновляю...");
   formUpdateAvatarValidate.handleButtonActivity(false);
-  API.updateAvatar(link.link)
+  Api.updateAvatar(link.link)
     .then(userInfo.updateUserAvatar(link.link))
     .then(popupUpdateAvatar.handleProcessing("Сохранить"));
 };
 
 const submitToAddCardCallback = (item) => {
   popupAdd.handleProcessing("Добавляю...");
-  API.addNewCard(item.name, item.link)
+  Api.addNewCard(item.name, item.link)
     .then((res) => {
       section.addItem(res);
     })
@@ -105,14 +105,14 @@ const submitToAddCardCallback = (item) => {
 };
 
 const deleteCardCallback = (card) => {
-  popupConfirmDeleteCard.open(card, API.deleteCard);
+  popupConfirmDeleteCard.open(card, Api.deleteCard);
 };
 
 const handeLikeCard = (status, id) => {
   if (status) {
-    return API.sendLike(id);
+    return Api.sendLike(id);
   } else {
-    return API.delLike(id);
+    return Api.delLike(id);
   }
 };
 
@@ -140,7 +140,7 @@ const section = new Section([], renderer, ".grid-cards");
 
 /* Section */
 function loadAllCards() {
-  API.getInitialCards()
+  Api.getInitialCards()
     .then((res) => {
       loader.style.display = "none";
       res.reverse().forEach((card) => {
