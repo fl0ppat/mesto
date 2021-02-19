@@ -1,3 +1,4 @@
+import loadError from "../vendor/image404.png";
 /**
  * Class Card
  */
@@ -95,9 +96,12 @@ export default class Card {
     this._cardLikeCounter = this._card.querySelector(".grid-cards__like-counter");
 
     this._card.dataset.id = this._id;
-    this._card.dataset.owner = this._owner;
     this._cardImage.src = this._imageUrl;
     this._cardImage.alt = this._name;
+    this._cardImage.onerror = () => {
+      this._cardImage.src = loadError;
+      this._imageUrl = loadError;
+    };
     this._cardTitle.textContent = this._name;
     this._cardLikeCounter.textContent = this._likes.length;
 
