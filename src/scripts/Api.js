@@ -1,18 +1,23 @@
 export default class Api {
-  constructor(data) {
+  /**
+   * Creates an instance of Api.
+   * @param {obj} data auth data
+   * @param {string} url Api path
+   * @memberof Api
+   */
+  constructor(data, url) {
     this._token = data.token;
     this._id = data.id;
     this.deleteCard = this.deleteCard.bind(this);
+    this._baseURL = url;
   }
 
   getInitialCards() {
-    return this._sendRequest("GET", `https://mesto.nomoreparties.co/v1/${this._id}/cards`).then((res) =>
-      this._handleResponseStatus(res)
-    );
+    return this._sendRequest("GET", `${this._baseURL + this._id}/cards`).then((res) => this._handleResponseStatus(res));
   }
 
   getUserData() {
-    return this._sendRequest("GET", `https://mesto.nomoreparties.co/v1/${this._id}/users/me`).then((res) =>
+    return this._sendRequest("GET", `${this._baseURL + this._id}/users/me`).then((res) =>
       this._handleResponseStatus(res)
     );
   }
@@ -20,7 +25,7 @@ export default class Api {
   editProfileData(name, about) {
     return this._sendRequest(
       "PATCH",
-      `https://mesto.nomoreparties.co/v1/${this._id}/users/me`,
+      `${this._baseURL + this._id}/users/me`,
       { "Content-Type": "application/json" },
       { name: name, about: about }
     ).then((res) => this._handleResponseStatus(res));
@@ -29,26 +34,26 @@ export default class Api {
   addNewCard(name, link) {
     return this._sendRequest(
       "POST",
-      `https://mesto.nomoreparties.co/v1/${this._id}/cards`,
+      `${this._baseURL + this._id}/cards`,
       { "Content-Type": "application/json" },
       { name: name, link, link }
     ).then((res) => this._handleResponseStatus(res));
   }
 
   deleteCard(id) {
-    return this._sendRequest("DELETE", `https://mesto.nomoreparties.co/v1/${this._id}/cards/${id}`).then((res) =>
+    return this._sendRequest("DELETE", `${this._baseURL + this._id}/cards/${id}`).then((res) =>
       this._handleResponseStatus(res)
     );
   }
 
   sendLike(id) {
-    return this._sendRequest("PUT", `https://mesto.nomoreparties.co/v1/${this._id}/cards/likes/${id}`).then((res) =>
+    return this._sendRequest("PUT", `${this._baseURL + this._id}/cards/likes/${id}`).then((res) =>
       this._handleResponseStatus(res)
     );
   }
 
   delLike(id) {
-    return this._sendRequest("DELETE", `https://mesto.nomoreparties.co/v1/${this._id}/cards/likes/${id}`).then((res) =>
+    return this._sendRequest("DELETE", `${this._baseURL + this._id}/cards/likes/${id}`).then((res) =>
       this._handleResponseStatus(res)
     );
   }
@@ -56,8 +61,8 @@ export default class Api {
   updateAvatar(link) {
     console.log(link);
     return this._sendRequest(
-      "PATCH", 
-      `https://mesto.nomoreparties.co/v1/${this._id}/users/me/avatar`,
+      "PATCH",
+      `${this._baseURL + this._id}/users/me/avatar`,
       { "Content-Type": "application/json" },
       { avatar: link }
     ).then((res) => {
