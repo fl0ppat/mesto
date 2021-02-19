@@ -81,7 +81,7 @@ export default class Card {
   }
 
   delete(apiCall) {
-    apiCall(this._id)
+    return apiCall
       .then(() => {
         this._card.classList.add("grid-cards__card_out");
         setTimeout(() => {
