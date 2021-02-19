@@ -99,7 +99,10 @@ const updateUserInfoCallback = ({ name, subtitle }) => {
    */
   api
     .editProfileData(name, subtitle)
-    .then(userInfo.updateUserData(name, subtitle))
+    .then(() => {
+      userInfo.updateUserData(name, subtitle);
+      popupEdit.close();
+    })
     .catch((error) => {
       console.error(error);
       userInfo.setUserInfo("Mr.Cot", "Handsome buddy");
@@ -116,7 +119,10 @@ const submitToUpdateAvatarCallback = (link) => {
    */
   api
     .updateAvatar(link.link)
-    .then(userInfo.updateUserAvatar(link.link))
+    .then(() => {
+      userInfo.updateUserAvatar(link.link);
+      popupUpdateAvatar.close();
+    })
     .catch((error) => {
       console.error(error);
       userInfo.updateUserAvatar(avatarLoadError);
@@ -130,6 +136,7 @@ const submitToAddCardCallback = (item) => {
     .addNewCard(item.name, item.link)
     .then((res) => {
       section.addItem(res);
+      popupAdd.close();
     })
     .catch((error) => {
       console.error(error);
