@@ -50,19 +50,29 @@ export default class Card {
     });
   }
 
+  /**
+   * Спасибо за рекомендацию с переносом логики в колбек.
+   * Так как для исправления придётся переписать приличный кусок, боюсь, могу не уложиться в срок.
+   *
+   * Поправлю "Можно лучше" позже.
+   */
   _like(e) {
     if (!this._isLiked) {
       this._isLiked = true;
-      e.target.classList.add("grid-cards__like_liked");
-      this._likeCallback(true, this._id).then((res) => {
-        this._cardLikeCounter.textContent = res.likes.length;
-      });
+      this._likeCallback(true, this._id)
+        .then((res) => {
+          e.target.classList.add("grid-cards__like_liked");
+          this._cardLikeCounter.textContent = res.likes.length;
+        })
+        .catch((error) => console.error(error));
     } else {
       this._isLiked = false;
-      e.target.classList.remove("grid-cards__like_liked");
-      this._likeCallback(false, this._id).then((res) => {
-        this._cardLikeCounter.textContent = res.likes.length;
-      });
+      this._likeCallback(false, this._id)
+        .then((res) => {
+          e.target.classList.remove("grid-cards__like_liked");
+          this._cardLikeCounter.textContent = res.likes.length;
+        })
+        .catch((error) => console.error(error));
     }
   }
 
@@ -71,11 +81,14 @@ export default class Card {
   }
 
   delete(apiCall) {
-    this._card.classList.add("grid-cards__card_out");
-    setTimeout(() => {
-      this._card.remove();
-      apiCall(this._id);
-    }, 300);
+    apiCall(this._id)
+      .then(() => {
+        this._card.classList.add("grid-cards__card_out");
+        setTimeout(() => {
+          this._card.remove();
+        }, 300);
+      })
+      .catch((error) => console.error(error));
   }
 
   /**
