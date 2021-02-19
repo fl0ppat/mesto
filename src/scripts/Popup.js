@@ -1,3 +1,4 @@
+import { ESC } from "./constants.js";
 /**
  * Popup object. Used for DOM manipulation.
  *
@@ -41,7 +42,7 @@ export default class Popup {
   }
 
   _handleEscClose(event) {
-    if (event.key === "Escape") {
+    if (event.key === ESC) {
       this.close();
     }
   }

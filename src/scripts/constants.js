@@ -5,6 +5,7 @@ export const formEditUserProfileSelector = "#formEdit";
 export const formAddCardSelector = "#formAdd";
 export const loaderSelector = ".loading";
 export const formUpdateAvatarSelector = "#formUpdateAvatar";
+export const ESC = "Escape";
 export const avatarSelector = ".profile__avatar";
 export const apiAuthData = {
   token: "17ffbe73-0340-4500-99b3-d234b713ebb3",
