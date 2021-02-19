@@ -27,7 +27,7 @@ import UserInfo from "../scripts/UserInfo.js";
 const loader = document.querySelector(loaderSelector);
 const skeletonElements = document.querySelectorAll("." + skeletonSelector);
 
-const api = new Api(apiAuthData);
+const api = new Api(apiAuthData, "https://mesto.nomoreparties.co/v1/");
 const userInfo = new UserInfo(
   {
     elementWithName: ".profile__name",
@@ -107,7 +107,7 @@ const updateUserInfoCallback = ({ name, subtitle }) => {
       console.error(error);
       userInfo.setUserInfo("Mr.Cot", "Handsome buddy");
     })
-    .then(popupEdit.handleProcessing("Сохранить"));
+    .finally(popupEdit.handleProcessing("Сохранить"));
 };
 
 const submitToUpdateAvatarCallback = (link) => {
@@ -127,7 +127,7 @@ const submitToUpdateAvatarCallback = (link) => {
       console.error(error);
       userInfo.updateUserAvatar(avatarLoadError);
     })
-    .then(popupUpdateAvatar.handleProcessing("Сохранить"));
+    .finally(popupUpdateAvatar.handleProcessing("Сохранить"));
 };
 
 const submitToAddCardCallback = (item) => {
@@ -141,7 +141,7 @@ const submitToAddCardCallback = (item) => {
     .catch((error) => {
       console.error(error);
     })
-    .then(popupAdd.handleProcessing("Сохранить"));
+    .finally(popupAdd.handleProcessing("Сохранить"));
 };
 
 const deleteCardCallback = (card) => {
