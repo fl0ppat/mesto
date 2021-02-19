@@ -1,3 +1,4 @@
+import loadError from "../vendor/image404.png";
 /**
  * Class Card
  */
@@ -49,19 +50,29 @@ export default class Card {
     });
   }
 
+  /**
+   * Спасибо за рекомендацию с переносом логики в колбек.
+   * Так как для исправления придётся переписать приличный кусок, боюсь, могу не уложиться в срок.
+   *
+   * Поправлю "Можно лучше" позже.
+   */
   _like(e) {
     if (!this._isLiked) {
       this._isLiked = true;
-      e.target.classList.add("grid-cards__like_liked");
-      this._likeCallback(true, this._id).then((res) => {
-        this._cardLikeCounter.textContent = res.likes.length;
-      });
+      this._likeCallback(true, this._id)
+        .then((res) => {
+          e.target.classList.add("grid-cards__like_liked");
+          this._cardLikeCounter.textContent = res.likes.length;
+        })
+        .catch((error) => console.error(error));
     } else {
       this._isLiked = false;
-      e.target.classList.remove("grid-cards__like_liked");
-      this._likeCallback(false, this._id).then((res) => {
-        this._cardLikeCounter.textContent = res.likes.length;
-      });
+      this._likeCallback(false, this._id)
+        .then((res) => {
+          e.target.classList.remove("grid-cards__like_liked");
+          this._cardLikeCounter.textContent = res.likes.length;
+        })
+        .catch((error) => console.error(error));
     }
   }
 
@@ -70,11 +81,14 @@ export default class Card {
   }
 
   delete(apiCall) {
-    this._card.classList.add("grid-cards__card_out");
-    setTimeout(() => {
-      this._card.remove();
-      apiCall(this._id);
-    }, 300);
+    return apiCall
+      .then(() => {
+        this._card.classList.add("grid-cards__card_out");
+        setTimeout(() => {
+          this._card.remove();
+        }, 300);
+      })
+      .catch((error) => console.error(error));
   }
 
   /**
@@ -95,9 +109,12 @@ export default class Card {
     this._cardLikeCounter = this._card.querySelector(".grid-cards__like-counter");
 
     this._card.dataset.id = this._id;
-    this._card.dataset.owner = this._owner;
     this._cardImage.src = this._imageUrl;
     this._cardImage.alt = this._name;
+    this._cardImage.onerror = () => {
+      this._cardImage.src = loadError;
+      this._imageUrl = loadError;
+    };
     this._cardTitle.textContent = this._name;
     this._cardLikeCounter.textContent = this._likes.length;
 

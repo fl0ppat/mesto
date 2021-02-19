@@ -1,4 +1,5 @@
 import "../pages/index.css";
+import avatarLoadError from "../vendor/placeholder.gif";
 
 import {
   profileEditButtonSelector,
@@ -26,7 +27,7 @@ import UserInfo from "../scripts/UserInfo.js";
 const loader = document.querySelector(loaderSelector);
 const skeletonElements = document.querySelectorAll("." + skeletonSelector);
 
-const API = new Api(apiAuthData);
+const api = new Api(apiAuthData);
 const userInfo = new UserInfo(
   {
     elementWithName: ".profile__name",
@@ -36,12 +37,22 @@ const userInfo = new UserInfo(
   "0"
 );
 
-API.getUserData().then((res) => {
-  skeletonElements.forEach((element) => {
-    element.classList.remove(skeletonSelector);
+/**
+ * Try to load remote data from server.
+ * Catch error and set placeholder values
+ */
+api
+  .getUserData()
+  .then((res) => {
+    skeletonElements.forEach((element) => {
+      element.classList.remove(skeletonSelector);
+    });
+    userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
+  })
+  .catch((error) => {
+    console.error(error);
+    userInfo.setUserInfo("mr. Cit", "Приходит только когда что-то сломалось", avatarLoadError, "0");
   });
-  userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
-});
 
 const avatarElement = document.querySelector(avatarSelector);
 const formEditUserProfile = document.querySelector(formEditUserProfileSelector);
@@ -82,41 +93,70 @@ formUpdateAvatarValidate.enableValidation(formUpdateAvatar);
 const openFullImageCallback = (link, name) => popupFullImage.open(link, name);
 const updateUserInfoCallback = ({ name, subtitle }) => {
   popupEdit.handleProcessing("Обновляю...");
-  API.editProfileData(name, subtitle)
-    .then(userInfo.updateUserData(name, subtitle))
+  /**
+   * Try to set new userData.
+   * Catch error and set placeholder data
+   */
+  api
+    .editProfileData(name, subtitle)
+    .then(() => {
+      userInfo.updateUserData(name, subtitle);
+      popupEdit.close();
+    })
+    .catch((error) => {
+      console.error(error);
+      userInfo.setUserInfo("Mr.Cot", "Handsome buddy");
+    })
     .then(popupEdit.handleProcessing("Сохранить"));
 };
 
 const submitToUpdateAvatarCallback = (link) => {
   popupUpdateAvatar.handleProcessing("Обновляю...");
   formUpdateAvatarValidate.handleButtonActivity(false);
-  API.updateAvatar(link.link)
-    .then(userInfo.updateUserAvatar(link.link))
+  /**
+   * Try to set new Avatar
+   * Catch error and set placeholder avatar
+   */
+  api
+    .updateAvatar(link.link)
+    .then(() => {
+      userInfo.updateUserAvatar(link.link);
+      popupUpdateAvatar.close();
+    })
+    .catch((error) => {
+      console.error(error);
+      userInfo.updateUserAvatar(avatarLoadError);
+    })
     .then(popupUpdateAvatar.handleProcessing("Сохранить"));
 };
 
 const submitToAddCardCallback = (item) => {
   popupAdd.handleProcessing("Добавляю...");
-  API.addNewCard(item.name, item.link)
+  api
+    .addNewCard(item.name, item.link)
     .then((res) => {
       section.addItem(res);
+      popupAdd.close();
+    })
+    .catch((error) => {
+      console.error(error);
     })
     .then(popupAdd.handleProcessing("Сохранить"));
 };
 
 const deleteCardCallback = (card) => {
-  popupConfirmDeleteCard.open(card, API.deleteCard);
+  popupConfirmDeleteCard.open(card, api.deleteCard);
 };
 
 const handeLikeCard = (status, id) => {
   if (status) {
-    return API.sendLike(id);
+    return api.sendLike(id).catch((error) => console.error(error));
   } else {
-    return API.delLike(id);
+    return api.delLike(id).catch((error) => console.error(error));
   }
 };
 
-const renderer = (item) => {
+const cardRenderer = (item) => {
   const isLiked = item.likes.some((like) => {
     return like._id === userInfo.getUserId();
   });
@@ -136,18 +176,20 @@ const renderer = (item) => {
   return card.createCard();
 };
 
-const section = new Section([], renderer, ".grid-cards");
+const section = new Section([], cardRenderer, ".grid-cards");
 
 /* Section */
 function loadAllCards() {
-  API.getInitialCards()
+  api
+    .getInitialCards()
     .then((res) => {
       loader.style.display = "none";
       res.reverse().forEach((card) => {
         section.addItem(card);
       });
     })
-    .catch(() => {
+    .catch((error) => {
+      console.error(error);
       loader.style.display = "none";
       initialCards.forEach((card) => {
         section.addItem(card);
