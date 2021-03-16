@@ -4,16 +4,17 @@
 
 [Ссылка на проект](https://posmotrina.site/mesto/)
 
+Первая студенческая работа в формате SPA. Проект представляет собой небольшой сервис для обмена с̶м̶е̶ш̶н̶ы̶м̶и̶ ̶к̶а̶р̶т̶и̶н̶к̶а̶м̶и фотографиями красивых мест.
+
+<h3>Сборка</h3>
 > webpack --mode production
+
 
 Проект сделан с применением:
 
 - БЭМ
 - Flex
 - Grid
-- ES6 Syntax (Arrow functions, classes, methods)
+- ES6 Syntax (Arrow functions, classes)
 - Modules
 
-**Figma**
-
-- [Ссылка на макет в Figma](https://www.figma.com/file/StZjf8HnoeLdiXS7dYrLAh/JavaScript.-Sprint-4)
